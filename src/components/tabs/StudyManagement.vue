@@ -5,7 +5,7 @@
         <div class="tag-container">
             <div class="tags">
                 <SearchTag label="교사" value="김철수"/>
-                <SearchTag label="반" value="햇님"/>
+                <SearchTag label="상태" value="O"/>
                 <SearchTag label="학생" value="홍길동"/>
             </div>
             <button class="icon-btn"><svg width="20px" height="20px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 9L18.005 20.3463C17.8369 21.3026 17.0062 22 16.0353 22H7.96474C6.99379 22 6.1631 21.3026 5.99496 20.3463L4 9" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 6L15.375 6M3 6L8.625 6M8.625 6V4C8.625 2.89543 9.52043 2 10.625 2H13.375C14.4796 2 15.375 2.89543 15.375 4V6M8.625 6L15.375 6" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
@@ -22,27 +22,29 @@
             </select>
         </div>
         <div class="input-box">
-            <label for="class-name">반</label>
-            <select class="filter-input" name="class-name" id="class-name">
+            <label for="complete">상태</label>
+            <select class="filter-input" name="complete" id="complete">
                 <option>전체</option>
-                <option>1반</option>
-                <option>2반</option>
-                <option>3반</option>
+                <option>O</option>
+                <option>X</option>
+                <option>△</option>
             </select>
         </div>
         <div class="input-box">
             <label for="student-name">학생 : </label>
-            <input class="filter-input" id="student-name"/>
+            <input placeholder="Enter를 눌러 검색하세요" class="filter-input" id="student-name"/>
         </div>
     </div>
     <CalendarTab/>
     <div class="list-box">
-
+        <StudentCard/>
+        <StudentCard/>
     </div>
 </template>
 <script setup>
 import CalendarTab from '../CalendarTab.vue';
 import SearchTag from '../SearchTag.vue';
+import StudentCard from '../StudentCard.vue';
 
 </script>
 <style scoped>
@@ -77,7 +79,8 @@ label{
 .tags{
     display: flex;
     column-gap: 3px;
-
+    row-gap: 3px;
+    flex-wrap: wrap;
 }
 .icon-btn{
     display: flex;
@@ -89,6 +92,7 @@ label{
     padding: 5px;
     border-radius: 8px;
     border: 0.5px solid rgb(135, 135, 247);
+    align-self: flex-end;
 }
 
 .filter-input{
@@ -106,5 +110,12 @@ label{
 #student-name{
     flex-grow: 1;
     width: 100px;
+}
+
+.list-box{
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
 }
 </style>
