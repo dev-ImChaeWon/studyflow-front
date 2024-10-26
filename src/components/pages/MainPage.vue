@@ -7,6 +7,7 @@
         <BillManagement v-else-if="tabNo===3"/>
         <SettingManagement v-else-if="tabNo===4"/>
     </main>
+    <PageFooter/>
 </template>
 
 <script setup>
@@ -18,6 +19,7 @@ import StudentManagement from '../tabs/StudentManagement.vue';
 import StudyManagement from '../tabs/StudyManagement.vue';
 import BillManagement from '../tabs/BillManagement.vue';
 import SettingManagement from '../tabs/SettingManagement.vue';
+import PageFooter from '../PageFooter.vue';
 
 
     const tabNo = ref(2);

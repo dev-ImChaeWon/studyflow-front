@@ -48,7 +48,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, defineEmits,computed } from 'vue';
+
+const emit = defineEmits(['updateDate']);
 
 
 
@@ -87,6 +89,7 @@ let onWeekClick = (direction) => {
     }
     selectedDate.value = dateToString(now);
 
+    emit('updateDate', selectedDate.value);
 
 };
 
@@ -95,6 +98,7 @@ let onWeekClick = (direction) => {
 
 let clickDate = (target) => {
     selectedDate.value = target;
+    emit('updateDate', selectedDate.value);
 }
 
 let onMonthClick = (target) => {
@@ -106,12 +110,13 @@ let onMonthClick = (target) => {
         now.setDate(1);
     }
 
-    console.log((now));
     selectedDate.value = dateToString(now);
+    emit('updateDate', selectedDate.value);
 }
 
 let setToday = () => {
     selectedDate.value = today; // 오늘 날짜로 설정
+    emit('updateDate', selectedDate.value);
 };
 
 </script>
