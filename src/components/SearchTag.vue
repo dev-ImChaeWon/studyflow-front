@@ -1,11 +1,16 @@
 <template>
-    <div class="tag-box">{{label}}:{{value}} <div class="x">x</div></div>
+    <div @click="onClickTag(id)" class="tag-box">{{label}}:{{value}} <div class="x">x</div></div>
 </template>
 
 <script setup>
-import {defineProps} from "vue";
+import {defineProps,defineEmits} from "vue";
 
-defineProps(['label', 'value'])
+defineProps(['label', 'value', 'id']);
+const emit= defineEmits(['clickTag']);
+
+const onClickTag = (target)=>{
+    emit('clickTag', target);
+}
 </script>
 
 <style scoped>
