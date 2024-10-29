@@ -1,5 +1,5 @@
 <template>
-    <div @click="onClickTag(id)" class="tag-box">{{label}}:{{value}} <div class="x">x</div></div>
+    <div @click="onClickTag(label)" class="tag-box">{{label}}:{{value}} <div class="x">x</div></div>
 </template>
 
 <script setup>
