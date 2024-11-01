@@ -48,7 +48,9 @@
 </template>
 
 <script setup>
-import { ref, defineEmits,computed } from 'vue';
+import { ref, defineEmits,computed,defineProps } from 'vue';
+
+const props = defineProps(['defaultDate', 'today'])
 
 const emit = defineEmits(['updateDate']);
 
@@ -61,9 +63,7 @@ let dateToString = (target) => {
 
     return '' + year + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
 }
-let date = new Date();
-let today = dateToString(date);
-let selectedDate = ref(today);
+let selectedDate = ref(props.defaultDate);
 
 // 주간 날짜 배열 생성
 let visibleDates = computed(() => {
@@ -115,7 +115,7 @@ let onMonthClick = (target) => {
 }
 
 let setToday = () => {
-    selectedDate.value = today; // 오늘 날짜로 설정
+    selectedDate.value = props.defaultDate; // 오늘 날짜로 설정
     emit('updateDate', selectedDate.value);
 };
 

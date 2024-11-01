@@ -1,6 +1,6 @@
 <template>
     <h1>원생관리</h1>
-    <CalendarTab />
+    <CalendarTab :today="today" :default-date="selectedDate"/>
     <div class="student-list">
         <div class="grid-header student-name">학생이름(id)</div>
         <div class="grid-header">-</div>
@@ -16,7 +16,7 @@
     </div>
 </template>
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import AttendanceCard from '../AttendanceCard.vue';
 import CalendarTab from '../CalendarTab.vue';
 const students = reactive([
@@ -72,6 +72,16 @@ const students = reactive([
     },
 ]);
 
+let dateToString = (target) => {
+    let year = target.getFullYear();
+    let month = target.getMonth() + 1;
+    let date = target.getDate();
+
+    return '' + year + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
+}
+let date = new Date();
+let today = dateToString(date);
+let selectedDate = ref(today);
 </script>
 <style scoped>
 h1 {
