@@ -13,7 +13,7 @@ const routes = [
     { path: '/', component: MainLayout,
       children:[
         {path:'', component:MainPage},
-        {path:'student/:studentId/homework/new', component:CreateHomework}
+        {path:'student/:studentId/homework', component:CreateHomework}
       ]
      },
     { path: '/login', component: LoginPage },
