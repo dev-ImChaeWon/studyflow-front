@@ -1,7 +1,9 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <h2 class="student-name">김철수</h2>
+      <h2 class="student-name">
+        {{ studentName }}({{ studentId }})
+      </h2>
       <div class="status complete">
         <span class="percentage">100%</span>
         <span class="status-icon"><svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1"
@@ -58,6 +60,8 @@
 </template>
 
 <script setup>
+import { defineProps } from 'vue';
+defineProps(['studentName', 'studentId']);
 </script>
 
 <style scoped>

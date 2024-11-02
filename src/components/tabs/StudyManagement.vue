@@ -9,7 +9,7 @@
                   @click-tag="removeTag"
                 />
             </div>
-            <button @click="()=>{studentName= ''; selectedTeacher=''}" class="icon-btn"><svg width="20px" height="20px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 9L18.005 20.3463C17.8369 21.3026 17.0062 22 16.0353 22H7.96474C6.99379 22 6.1631 21.3026 5.99496 20.3463L4 9" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 6L15.375 6M3 6L8.625 6M8.625 6V4C8.625 2.89543 9.52043 2 10.625 2H13.375C14.4796 2 15.375 2.89543 15.375 4V6M8.625 6L15.375 6" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+            <button @click="()=>{studentName= ''; selectedTeacher='all'}" class="icon-btn"><svg width="20px" height="20px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M20 9L18.005 20.3463C17.8369 21.3026 17.0062 22 16.0353 22H7.96474C6.99379 22 6.1631 21.3026 5.99496 20.3463L4 9" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 6L15.375 6M3 6L8.625 6M8.625 6V4C8.625 2.89543 9.52043 2 10.625 2H13.375C14.4796 2 15.375 2.89543 15.375 4V6M8.625 6L15.375 6" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
         </div>
     </div>
     <div class="filter">
@@ -28,11 +28,11 @@
     <CalendarTab :today="today" :defaultDate="selectedDate" @update-date="fetchStudentListByDate"/>
     <StatusToggle @update-status="fetchStudentListByStatus"/>
     <div class="list-box">
-        <StudentCard/>
-        <StudentCard/>
+        <StudentCard v-for="s in studentList" v-bind:key="s.studentId" :student-id="s.studentId" :student-name="s.studentName"/>
         <StudentPagination 
-            :totalItems="30" 
-            :itemsPerPage="5" 
+            :totalItems="totalItems" 
+            :itemsPerPage="10" 
+            :currentPage = "currentPage"
             @update-page="fetchStudentListByPage"
         />
     </div>
@@ -60,10 +60,33 @@ const searchTags = computed(()=>{
     return res;
 });
 
-const selectedTeacher = ref('');
+const selectedTeacher = ref('all');
 const studentName = ref('');
 const currentPage = ref(1);
-const status = ref('completed');
+const status = ref('complete');
+const totalItems = ref(0);
+const studentList = ref([
+        {
+            "studentId": 1,
+            "studentName": "김철수",
+            "homework": [
+                {
+                    "homeworkId": 2,
+                    "subject": {
+                        "subjectId": null,
+                        "subjectName": "초6수학",
+                        "teacher": null
+                    },
+                    "student": null,
+                    "homeworkPage": 5,
+                    "homeworkDatetime": null,
+                    "completedPage": 5,
+                    "comment": "숙제 잘 했습니다.",
+                    "completeDatetime": null
+                }
+            ]
+        }
+    ])
 let dateToString = (target) => {
     let year = target.getFullYear();
     let month = target.getMonth() + 1;
@@ -78,13 +101,15 @@ let selectedDate = ref(today);
 
 const teachers = ref([]);
 
-watch([selectedTeacher, studentName, currentPage, selectedDate,status], (current)=>{
+watch([selectedTeacher, totalItems, studentName, currentPage, selectedDate,status], (current)=>{
     console.log(current);
+    fetchStudentListByHomeworkStatus();
+    console.log(studentList.value)
 })
 
 async function removeTag(tagType){
     if(tagType === '교사'){
-        selectedTeacher.value = '';
+        selectedTeacher.value = 'all';
     }else{
         studentName.value = '';
     }
@@ -111,6 +136,18 @@ async function fetchTeacherList(){
         teachers.value = res.data;
     }catch(e){
         alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시후 다시 시도해주세요');
+    }
+}
+
+async function fetchStudentListByHomeworkStatus(){
+    try{
+        let url = `http://localhost:8000/api/student?currentPage=${currentPage.value}&date=${selectedDate.value}&teacherId=${selectedTeacher.value}&homeworkStatus=${status.value}&studentName=${studentName.value}`;
+        let res = await axios.get(url);
+        console.log(res);
+        studentList.value = res.data.list;
+        totalItems.value = res.data.totalElements;
+    }catch(e){
+        alert('학생 목록 가져오다 오류 발생!');
     }
 }
 

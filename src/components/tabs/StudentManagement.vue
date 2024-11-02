@@ -69,6 +69,15 @@ const students = reactive([
             "studentName": "정수연",
             "homework": null
         }
+    },{
+        "studentId": 6,
+        "isAttend": null,
+        "attendanceDate": null,
+        "student": {
+            "studentId": null,
+            "studentName": "임꺽정",
+            "homework": null
+        }
     },
 ]);
 

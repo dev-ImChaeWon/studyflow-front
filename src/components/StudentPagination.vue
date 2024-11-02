@@ -25,17 +25,15 @@
 <script setup>
 import { ref, computed ,defineProps,defineEmits} from 'vue';
 
-const props = defineProps({
-  totalItems: Number,
-  itemsPerPage: {
-      type: Number,
-      default: 10
-  }
-});
+const props = defineProps([
+  'totalItems',
+  'itemsPerPage',
+  'currentPage'
+]);
 
 const emit = defineEmits(['updatePage']);
 
-const currentPage = ref(1);
+const currentPage = ref(props.currentPage);
 
 const totalPages = computed(() => {
   return Math.ceil(props.totalItems / props.itemsPerPage);
