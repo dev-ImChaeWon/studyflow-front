@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <CalendarTab/>
+    <CalendarTab :default-date="selectedDate" :today="today" />
     <BillStatusCard/>
 </template>
 <script setup>
@@ -25,8 +25,19 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import BillStatusCard from '../BillStatusCard.vue';
 import CalendarTab from '../CalendarTab.vue';
+let dateToString = (target) => {
+    let year = target.getFullYear();
+    let month = target.getMonth() + 1;
+    let date = target.getDate();
 
+    return '' + year + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
+}
+
+const date = new Date();
+let today = dateToString(date);
+let selectedDate = ref(today);
 const subjects = ref([]);
+
 
 async function fetchSubjectList(){
     try{
