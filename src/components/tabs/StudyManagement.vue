@@ -42,7 +42,7 @@ import { onMounted, ref, watch, computed } from 'vue';
 import CalendarTab from '../CalendarTab.vue';
 import SearchTag from '../SearchTag.vue';
 import StudentCard from '../StudentCard.vue';
-//import axios from 'axios';
+import axios from 'axios';
 import StatusToggle from '../StatusToggle.vue';
 import StudentPagination from '../StudentPagination.vue';
 
@@ -107,8 +107,8 @@ async function fetchStudentListByStatus(newStatus){
 
 async function fetchTeacherList(){
     try{
-        //let res = await axios.get('http://localhost:8000/api/teacher');
-        //teachers.value = res.data;
+        let res = await axios.get('http://localhost:8000/api/teacher');
+        teachers.value = res.data;
     }catch(e){
         alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시후 다시 시도해주세요');
     }
