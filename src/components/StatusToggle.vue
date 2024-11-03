@@ -1,16 +1,16 @@
 <template>
   <div class="status-toggle">
       <button 
-          :class="{ active: currentStatus === 'completed' }" 
-          @click="setStatus('completed')">완료
+          :class="{ active: currentStatus === 'complete' }" 
+          @click="setStatus('complete')">완료
       </button>
       <button 
-          :class="{ active: currentStatus === 'incomplete' }" 
-          @click="setStatus('incomplete')">미완료
+          :class="{ active: currentStatus === 'not-complete' }" 
+          @click="setStatus('not-complete')">미완료
       </button>
       <button 
-          :class="{ active: currentStatus === 'notAssigned' }" 
-          @click="setStatus('notAssigned')">미부여
+          :class="{ active: currentStatus === 'no-homework' }" 
+          @click="setStatus('no-homework')">미부여
       </button>
   </div>
 </template>
@@ -19,7 +19,7 @@
 import { ref,defineEmits } from 'vue';
 const emit = defineEmits(['updateStatus']);
 
-const currentStatus = ref('completed'); // 초기 상태 설정
+const currentStatus = ref('complete'); // 초기 상태 설정
 
 const setStatus = (status) => {
   currentStatus.value = status; // 상태 변경
