@@ -2,16 +2,17 @@
   <div class="page-box">
     <span class="label">{{label}}</span>
     <span v-if="!isEdit" @click="changeEditStatus" class="page">{{ currentPage }}</span>
-    <input v-else ref="inputField" v-model="currentPage" @keyup.enter="enterClick" @blur="changeEditStatus" />
+    <input v-else ref="inputField" v-model="currentPage" @keydown.enter="enterClick" @blur="changeEditStatus" />
   </div>
 
 </template>
 
 
 <script setup>
-import {defineProps , ref,nextTick } from "vue";
+import {defineProps , ref, nextTick, defineEmits} from "vue";
 
 const props = defineProps(['label', 'page']);
+const emits = defineEmits(['updatePage'])
 const isEdit = ref(false);
 const currentPage = ref(props.page);
 const inputField = ref(null); // Ref to input element
@@ -21,11 +22,15 @@ function changeEditStatus() {
 
   if (isEdit.value) {
     nextTick(() => inputField.value.focus()); // Focus on input when edit mode is activated
+  }else{
+    emits('updatePage', currentPage.value);
   }
 }
 
 function enterClick() {
-  isEdit.value = false;
+  nextTick(() => {
+    inputField.value.blur(); // 포커스를 해제
+  });
 
 }
 
