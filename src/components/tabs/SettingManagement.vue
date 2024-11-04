@@ -53,17 +53,19 @@ function showTeacherSetting() {
 }
 
 .teacher-manage button {
-    border-radius: 10px;
+    border-radius: 7px;
     border-style: hidden;
-    margin: 10px 30%;
+    margin: 10px 20%;
     flex: auto;
-    padding: 5px;
-    background-color: #e1e7ff;
-    transition: background-color 0.3s, color 0.3s;
+    padding: 10px;
+    font-size: large;
+    color: #dbe3ff;
+    background-color: #556dc5;
+    transition: background-color 0.25s, color 0.25s;
 }
 
 .teacher-manage button:hover {
     cursor: pointer;
-    background-color: #c8d4ff;
+    background-color: #465ba7;
 }
 </style>

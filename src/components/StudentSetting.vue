@@ -11,9 +11,11 @@
             <h2 class="student-name">김철수</h2>
         </div>
         <div class="card-body">
+          <div class="subject">
             <li>초5수학</li> <!-- v-for로 해당학생 과목 불러와서 반복 -->
             <li>영어</li>
             <li>국어</li>
+          </div>
             <button @click="showModal">정보 수정</button>
         </div>
     </div>
@@ -93,13 +95,17 @@ label{
   align-items: baseline;
 }
 
-.card-body{
+.card-body {
   padding: 10px 0;
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   flex-direction: row;
   row-gap: 15px;
   font-size: 14px;
+}
+
+.subject {
+  display: flex;
 }
 
 button {
@@ -125,7 +131,7 @@ li {
 
 .modal-wrapper{
   position: fixed;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(1px);
   top: 0;
   bottom: 0;
   left: 0;
