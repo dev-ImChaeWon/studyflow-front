@@ -1,11 +1,18 @@
 <template>
     <p class="title">학생 정보 수정</p>
-        <div class="filter">
-            <div class="input-box">
-                <label for="student-name">학생 : </label>
-                <input placeholder="Enter를 눌러 검색하세요" class="filter-input" id="student-name"/>
-            </div>
-        </div>
+      <div class="filter">
+          <div class="input-box">
+              <label for="teacher">과목</label>
+              <select class="filter-input" name="subject" id="subject">
+                  <option value="all">전체</option>
+                  <option v-for="s in subjects" :key="s.subjectId" :value="s.subjectId">{{s.subjectName}}</option>
+              </select>
+          </div>
+          <div class="input-box">
+              <label for="student-name">학생 : </label>
+              <input placeholder="Enter를 눌러 검색하세요" class="filter-input" id="student-name"/>
+          </div>
+      </div>
     <div class="card">
         <div class="card-header">
             <h2 class="student-name">김철수</h2>
@@ -28,12 +35,30 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+
+const subjects = ref([]);
+
 function showModal(){
     let modalWrapper = document.querySelector('.modal-wrapper');
     modalWrapper.classList.add('active');
     
     document.body.style.overflow = 'hidden';
 }
+
+async function fetchSubjectList(){
+    try{
+        let res = await axios.get('http://localhost:8000/api/subject');
+        subjects.value = res.data;
+    }catch(e){
+        alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시후 다시 시도해주세요');
+    }
+}
+
+onMounted(()=>{
+    fetchSubjectList();
+})
 </script>
 
 <style scoped>

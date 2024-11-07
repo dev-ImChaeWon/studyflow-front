@@ -49,7 +49,7 @@ function showTeacherSetting() {
 
 .student-manage button:hover {
     cursor: pointer;
-    background-color: #3150c0;
+    background-color: #3657cf;
 }
 
 .teacher-manage button {
