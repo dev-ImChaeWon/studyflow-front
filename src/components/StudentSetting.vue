@@ -2,7 +2,7 @@
     <p class="title">학생 정보 수정</p>
       <div class="filter">
           <div class="input-box">
-              <label for="teacher">과목</label>
+              <label for="subject">과목</label>
               <select class="filter-input" name="subject" id="subject">
                   <option value="all">전체</option>
                   <option v-for="s in subjects" :key="s.subjectId" :value="s.subjectId">{{s.subjectName}}</option>
