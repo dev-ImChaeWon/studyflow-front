@@ -2,7 +2,7 @@
     <p class="title">교사 정보 수정</p>
         <div class="card" v-for="t in teachers" :key="t.userId" :value="t.userId">
             <div class="card-header">
-                <h2 class="teacher-name">{{ t.userName }}</h2>
+                <h2 class="teacher-name">{{t.userName}}</h2>
             </div>
             <div class="card-body">
                 <div class="subject">
@@ -54,13 +54,6 @@ onMounted(()=>{
     font-size: large;
 }
 
-.filter{
-    display: flex;
-    align-items: stretch;
-    column-gap: 20px;
-    padding: 0 0 25px 0;
-}
-
 .input-box{
     display: flex;
     align-items: baseline;
@@ -73,14 +66,6 @@ label{
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-}
-
-.filter-input{
-    padding: 5px;
-    border: none;
-    border-bottom:1px solid rgb(206, 206, 255);
-    outline: none;
-    
 }
 
 .input-box:last-child{
