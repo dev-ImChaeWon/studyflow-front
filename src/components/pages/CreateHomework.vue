@@ -1,10 +1,13 @@
 <template>
   <main>
     <CalendarTab :today="today" :defaultDate="selectedDate" @update-date="fetchStudentListByDate" />
+    
     <div class="student-header">
       <h2 class="student-info">{{ student.studentName }} ({{ student.studentId }})</h2>
-      <button>추가</button>
+      <button @click="openPopup">추가</button>
     </div>
+    
+    <!-- Subject and Homework Display -->
     <div v-for="subject in student.subjects" :key="subject.subjectId" class="subject-box">
       <div class="box-header">
         <div class="subject">{{ subject.subjectName }}</div>
@@ -23,16 +26,26 @@
         <CommetBox :hw="hw" v-on:update-comment="(comment)=>updateComment(hw, comment)"/>
       </div>
     </div>
+    
+    <!-- Empty Data Component -->
     <EmptyData v-if="student.subjects.length < 1"/>
+    
+    <!-- Homework Popup Component -->
+    <HomeworkPopup v-if="isPopupVisible" 
+                   :isVisible="isPopupVisible" 
+                   :subjects="student.subjects" 
+                   @close="closePopup" 
+                   @addHomework="addHomework"/>
   </main>
 </template>
 
 <script setup>
-import CalendarTab from '../CalendarTab.vue';
 import { ref } from 'vue';
+import CalendarTab from '../CalendarTab.vue';
 import PageBox from '../PageBox.vue';
 import CommetBox from '../CommetBox.vue';
 import EmptyData from '../EmptyData.vue';
+import HomeworkPopup from '../HomeworkPopup.vue';
 
 let dateToString = (target) => {
   let year = target.getFullYear();
@@ -52,48 +65,39 @@ const student = ref({
     {
       subjectId: 1,
       subjectName: "초6수학",
-      homeworks: [
-        {
-          homeworkId: 2,
-          homeworkPage: 5,
-          completedPage: 5,
-          comment: "숙제 잘 했습니다.",
-        },
-        {
-          homeworkId: 3,
-          homeworkPage: 9,
-          completedPage: 9,
-          comment: "숙제 잘 했습니다.",
-        },
-      ],
+      homeworks: [],
     },
     {
       subjectId: 2,
       subjectName: "국어",
-      homeworks: [
-        {
-          homeworkId: 4,
-          homeworkPage: 9,
-          completedPage: 0,
-          comment: "",
-        },
-      ],
+      homeworks: [],
     },
   ],
 });
 
-const updateHomeworkPage = (hw, page) => {
-  hw.homeworkPage = page;
+const isPopupVisible = ref(false);
+
+const openPopup = () => {
+  isPopupVisible.value = true;
 };
 
-const updateCompletedPage = (hw, page) => {
-  hw.completedPage = page;
+const closePopup = () => {
+  isPopupVisible.value = false;
 };
 
-const updateComment = (hw, comment)=>{
-  hw.comment = comment
-}
+const addHomework = ({ subjectId, page }) => {
+  const subject = student.value.subjects.find(subj => subj.subjectId === subjectId);
+  if (subject) {
+    subject.homeworks.push({
+      homeworkId: Date.now(),
+      homeworkPage: page,
+      completedPage: 0,
+      comment: "",
+    });
+  }
+};
 </script>
+
 
 <style scoped>
 main {
