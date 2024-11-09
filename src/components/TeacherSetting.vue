@@ -1,23 +1,24 @@
 <template>
     <p class="title">교사 정보 수정</p>
-        <div class="card" v-for="t in teachers" :key="t.userId" :value="t.userId">
-            <div class="card-header">
-                <h2 class="teacher-name">{{t.userName}}</h2>
-            </div>
-            <div class="card-body">
-                <div class="subject">
-                <li>초6수학숙제</li> <!-- v-for로 해당 교사 과목 불러와서 반복 -->
-                <li>초6수학</li>
+      <div class="card" v-for="t in teachers" :key="t.userId" :value="t.userId">
+          <div class="card-header">
+            <h2 class="teacher-name">{{ t.userName }}</h2>
+            <h2 class="teacher-role">{{ t.userRole }}</h2>
+          </div>
+          <div class="card-body">
+            <div class="teacher-subject">
+              <li v-for="subject in t.subject" :key="subject.subjectId">
+                {{ subject.subjectName }}
+              </li>
             </div>
             <button @click="showModal">정보 수정</button>
-        </div>
-    </div>
-    <div class="modal-wrapper">
-        <div class="modal">
-            <label for="teacher-name">학생 : </label>
-            <input placeholder="">
-        </div>
-    </div>
+          </div>
+          <div class="modal-wrapper">
+            <div class="modal">
+
+            </div>
+          </div>
+      </div>
 </template>
 
 <script setup>
@@ -33,13 +34,14 @@ function showModal(){
     document.body.style.overflow = 'hidden';
 }
 
+
 async function fetchTeacherList(){
-    try{
-        let res = await axios.get('http://localhost:8000/api/teacher');
-        teachers.value = res.data;
-    }catch(e){
-        alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시후 다시 시도해주세요');
-    }
+  try{
+    let res = await axios.get('http://localhost:8000/api/teacher');
+    teachers.value = res.data;
+  }catch(e){
+    alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시후 다시 시도해주세요');
+  }
 }
 
 onMounted(()=>{
@@ -60,6 +62,9 @@ onMounted(()=>{
     column-gap: 5px;
 }
 
+li{
+  display: inline;
+}
 
 label{
     display: flex;
@@ -82,7 +87,7 @@ label{
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-
+  margin: 5px 0px;
 }
 
 .card-header {
@@ -127,7 +132,7 @@ li {
 
 .modal-wrapper{
   position: fixed;
-  backdrop-filter: blur(1px);
+  backdrop-filter: brightness(0.9);
   top: 0;
   bottom: 0;
   left: 0;

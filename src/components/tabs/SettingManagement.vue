@@ -2,30 +2,42 @@
     <h1>환경설정</h1>
         <div v-if="showComponent === 'default'">
             <div class="student-manage">
-                <button >학생 등록</button>
+                <button @click="showStudentRegister">학생 등록</button>
                 <button @click="showStudentSetting">학생 정보 수정</button>
             </div>
             <div class="teacher-manage">
-                <button >교사 등록</button>
+                <button @click="showTeacherRegister">교사 등록</button>
                 <button @click="showTeacherSetting">교사 정보 수정</button>
             </div>
         </div>
-    <StudentSetting v-else-if="showComponent === 'student'" />
-    <TeacherSetting v-else-if="showComponent === 'teacher'" />
+    <StudentRegister v-else-if="showComponenet === 'studentRegister'" />
+    <StudentSetting v-else-if="showComponent === 'studentSetting'" />
+    <TeacherRegister v-else-if="showComponent === 'teacherRegister'" />
+    <TeacherSetting v-else-if="showComponent === 'teacherSetting'" />
 </template>
 <script setup>
 import { ref } from 'vue'
-import StudentSetting from '../StudentSetting.vue'
+import StudentRegister from '../StudentRegister.vue';
+import StudentSetting from '../StudentSetting.vue';
 import TeacherSetting from '../TeacherSetting.vue';
+import TeacherRegister from '../TeacherRegister.vue';
 
 const showComponent = ref('default');
 
+function showStudentRegister() {
+    showComponent.value = 'studentRegister';
+}
+
 function showStudentSetting() {
-    showComponent.value = 'student';
+    showComponent.value = 'studentSetting';
+}
+
+function showTeacherRegister() {
+    showComponent.value = 'teacherRegister';
 }
 
 function showTeacherSetting() {
-    showComponent.value = 'teacher';
+    showComponent.value = 'teacherSetting';
 }
 </script>
 <style scoped>
