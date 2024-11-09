@@ -6,13 +6,24 @@
             <path d="M11 15h2v2h-2zm0-10h2v8h-2z" fill="#888"/>
         </svg>
     </div>
-    <p class="empty-message">현재 조회된 데이터가 없습니다.</p>
-    <p class="empty-submessage">조건을 변경하여 다시 시도해 보세요.</p>
+    <p class="empty-message">{{message}}</p>
+    <p class="empty-submessage">{{submessage}}</p>
 </div>
 
 </template>
 
 <script setup>
+import { defineProps } from 'vue';
+defineProps({
+  message: {
+    type: String,
+    default: '데이터가 없습니다.' // 기본 메시지 설정
+  },
+  submessage: {
+    type: String,
+    default: '아직 추가된 내용이 없습니다.' // 기본 서브 메시지 설정
+  }
+});
 </script>
 
 <style scoped>

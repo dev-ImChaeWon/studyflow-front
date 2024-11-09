@@ -81,7 +81,7 @@ const studentList = ref([
                 subjectId: 1,
                 subjectName: "초6수학",
                 teacher: null,
-                homeworks: [
+                homework: [
                     {
                         homeworkId: 2,
                         subject: null,
@@ -108,7 +108,7 @@ const studentList = ref([
                 subjectId: 2,
                 subjectName: "국어",
                 teacher: null,
-                homeworks: [
+                homework: [
                     {
                         homeworkId: 3,
                         subject: null,

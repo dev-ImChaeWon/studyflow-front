@@ -2,31 +2,31 @@
   <div class="student-row">
     <div class="grid-cell student-name">{{studentName}}({{studentId}})</div>
     <div class="grid-cell">
-      <input :checked="isAttend===null" :id="`no-status-${studentId}`" type="radio" :name="`status-${studentId}`" value="no-status">
+      <input @change="updateAttendance('-')" :checked="isAttend===null" :id="`no-status-${studentId}`" type="radio" :name="`status-${studentId}`" value="-">
       <label :for="`no-status-${studentId}`" class="radio-label gray">
         <span class="icon">-</span> <!-- 회색 상태없음 아이콘 -->
       </label>
     </div>
     <div class="grid-cell">
-      <input :checked="isAttend === '출석'" :id="`present-${studentId}`" type="radio" :name="`status-${studentId}`" value="present">
+      <input @change="updateAttendance('출석')" :checked="isAttend === '출석'" :id="`present-${studentId}`" type="radio" :name="`status-${studentId}`" value="출석">
       <label :for="`present-${studentId}`" class="radio-label green">
         <span class="icon">P</span> <!-- 초록색 출석 아이콘 -->
       </label>
     </div>
     <div class="grid-cell">
-      <input :checked="isAttend === '결석'" :id="`absent-${studentId}`" type="radio" :name="`status-${studentId}`" value="absent">
+      <input @change="updateAttendance('결석')" :checked="isAttend === '결석'" :id="`absent-${studentId}`" type="radio" :name="`status-${studentId}`" value="결석">
       <label :for="`absent-${studentId}`" class="radio-label red">
         <span class="icon">A</span> <!-- 빨간색 결석 아이콘 -->
       </label>
     </div>
     <div class="grid-cell">
-      <input :checked="isAttend === '지각'" :id="`late-${studentId}`" type="radio" :name="`status-${studentId}`" value="late">
+      <input @change="updateAttendance('지각')" :checked="isAttend === '지각'" :id="`late-${studentId}`" type="radio" :name="`status-${studentId}`" value="지각">
       <label :for="`late-${studentId}`" class="radio-label yellow">
         <span class="icon">L</span> <!-- 진한 노란색 지각 아이콘 -->
       </label>
     </div>
     <div class="grid-cell">
-      <input :checked="isAttend === '조퇴'" :id="`leave-early-${studentId}`" type="radio" :name="`status-${studentId}`" value="leave-early">
+      <input @change="updateAttendance('조퇴')" :checked="isAttend === '조퇴'" :id="`leave-early-${studentId}`" type="radio" :name="`status-${studentId}`" value="조퇴">
       <label :for="`leave-early-${studentId}`" class="radio-label orange">
         <span class="icon">LE</span> <!-- 주황색 조퇴 아이콘 -->
       </label>
@@ -35,9 +35,13 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-defineProps(['studentId', 'studentName', 'isAttend']);
+import { defineProps,defineEmits } from 'vue';
+const props = defineProps(['studentId', 'studentName', 'isAttend']);
 
+const emit = defineEmits(['update-attendance'])
+const updateAttendance = (status) => {
+  emit('update-attendance', props.studentId, status);
+};
 </script>
 
 <style scoped>

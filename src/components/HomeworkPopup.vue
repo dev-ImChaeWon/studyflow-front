@@ -4,7 +4,7 @@
     <div class="popup-content">
       <h3>숙제 추가하기</h3>
       <label for="subject">과목</label>
-      <select v-model="selectedSubjectId">
+      <select v-model="selectedSubjectId" :disabled="props.selectedSubjectId !== null">
         <option v-for="subject in subjects" :key="subject.subjectId" :value="subject.subjectId">
           {{ subject.subjectName }}
         </option>
@@ -23,13 +23,14 @@
 
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
-defineProps({
+const props = defineProps({
   isVisible: Boolean,
   subjects: Array,
+  selectedSubjectId: String
 });
 const emits = defineEmits(['close', 'addHomework']);
 
-const selectedSubjectId = ref(null);
+const selectedSubjectId = ref(props.selectedSubjectId);
 const homeworkPage = ref(null);
 
 const submitHomework = () => {
@@ -107,5 +108,11 @@ button:first-child {
 
 button:last-child {
   background-color: #cccccc;
+}
+
+select:disabled{
+  cursor: default; /* 기본 커서로 설정 */
+  background-color: #f5f5f5; /* 배경색을 살짝 흐리게 */
+  color: #424242; /* 텍스트 색을 연하게 */
 }
 </style>

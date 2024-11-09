@@ -27,18 +27,31 @@
       </div>
     </div>
     <div class="card-body">
+      <div v-if="!student.subjects || student.subjects.length < 1">
+        <div class="no-homework">
+          <p><strong>과목이 없습니다</strong></p>
+          <p>과목 설정을 먼저 해주세요</p>
+        </div>
+      </div>
       <div v-for="subject in student.subjects" v-bind:key="subject.subjectId" class="homework-container">
         <h4>{{ subject.subjectName }}</h4>
-        <div class="grid-container">
+         <!-- 숙제가 없는 경우 -->
+         <div v-if="subject.homework.length === 0" class="no-homework">
+          <p><strong>숙제가 없습니다!</strong></p>
+          <p>숙제를 부여하세요</p>
+        </div>
+
+        <!-- 숙제가 있는 경우 -->
+        <div v-else class="grid-container">
           <p class="grid-header">전체</p>
           <p class="grid-header">완료</p>
           <p class="grid-header">Comment</p>
-          <div v-for="h in subject.homeworks" v-bind:key="h.homeworkId" style="display: contents;">
+          <div v-for="h in subject.homework" v-bind:key="h.homeworkId" style="display: contents;">
             <p>{{ h.homeworkPage }}</p>
             <p>{{ h.completedPage }}</p>
             <p>
               <span style="flex-grow: 1;">
-                아파서 미완료했음
+                {{h.comment}}
               </span>
             </p>
           </div>
@@ -58,7 +71,7 @@ const percentage = computed(() => {
   let totalCompletedPages = 0;
 
   for (const subject of props.student.subjects) {
-    for (const homework of subject.homeworks) {
+    for (const homework of subject.homework) {
       totalHomeworkPages += homework.homeworkPage;
       totalCompletedPages += homework.completedPage;
     }
@@ -141,5 +154,26 @@ const percentage = computed(() => {
   flex-direction: column;
   row-gap: 15px;
   font-size: 14px;
+}
+
+/* 숙제가 없을 때 디자인 */
+.no-homework {
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.no-homework p {
+  color: #555;
+}
+
+.no-homework p strong {
+  color: #7c7c7c;
+  font-size: 18px;
 }
 </style>
