@@ -209,14 +209,11 @@ onMounted(() => {
 
             const res = await axios.post('http://localhost:8000/api/teacher', data);
             console.log('교사 등록 성공: ', res.data);
+            alert('신규 등록 성공');
             
-            // let modalWrapper = document.querySelector('.modal-wrapper');
-            // modalWrapper.classList.add('active');
-            
-            // document.body.style.overflow = 'hidden';
         } catch (e) {
             console.error('교사 등록 실패', e);
-            alert('등록에 실패했습니다. 다시 시도해주세요.')
+            alert('등록에 실패했습니다. 다시 시도해주세요.');
         }
 
 

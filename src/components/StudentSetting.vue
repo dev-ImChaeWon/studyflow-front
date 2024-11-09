@@ -13,9 +13,9 @@
               <input placeholder="Enter를 눌러 검색하세요" class="filter-input" id="student-name"/>
           </div>
       </div>
-    <div class="card">
+    <div class="card" v-for="s in students" :key="s.studentId">
         <div class="card-header">
-            <h2 class="student-name">김철수</h2>
+            <h2 class="student-name">{{ s.studentName }}</h2>
         </div>
         <div class="card-body">
           <div class="subject">
@@ -24,6 +24,7 @@
             <li>국어</li>
           </div>
             <button @click="showModal">정보 수정</button>
+            <button @click="closePopup">취소</button>
         </div>
     </div>
     <div class="modal-wrapper">
@@ -39,12 +40,32 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios';
 
 const subjects = ref([]);
+const students = ref([]);
 
-function showModal(){
-    let modalWrapper = document.querySelector('.modal-wrapper');
-    modalWrapper.classList.add('active');
-    
+
+async function fetchStudentList(){
+  try {
+    const res = await axios.get('http://localhost:8000/api/student');
+    students.value = res.data.map(student => ({
+      ...student,
+      isEditing: false,
+      showModal: false,
+      subjects: [],
+      selectedSubject: []
+    }));
+  } catch (e) {
+    alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요');
+  }
+}
+
+function showModal(student){
+    student.showModal = true;
     document.body.style.overflow = 'hidden';
+}
+
+function closePopup(teacher) {
+  teacher.showModal = false;
+  document.body.style.overflow = 'auto';
 }
 
 async function fetchSubjectList(){
@@ -52,12 +73,13 @@ async function fetchSubjectList(){
         let res = await axios.get('http://localhost:8000/api/subject');
         subjects.value = res.data;
     }catch(e){
-        alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시후 다시 시도해주세요');
+      alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시후 다시 시도해주세요');
     }
 }
 
 onMounted(()=>{
     fetchSubjectList();
+    fetchStudentList();
 })
 </script>
 
