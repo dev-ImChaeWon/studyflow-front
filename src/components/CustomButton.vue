@@ -1,11 +1,11 @@
 <template>
-    <button :type="type">{{ text }}</button>
+    <button @click="handleLogin" :type="type">{{ text }}</button>
 </template>
 
 
 <script setup>
 import{defineProps} from "vue";
-defineProps(["text", "type"])
+defineProps(["text", "type", "handleLogin"])
 </script>
 
 <style scoped>

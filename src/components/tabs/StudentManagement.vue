@@ -45,7 +45,9 @@ const fetchStudents = async (date) => {
     try {
         // 여기서 API 호출 예시
         const response = await axios.get(`http://localhost:8000/api/attendance`, {
-            params: { date }  // 날짜를 쿼리 파라미터로 전달
+            params: { date },
+            headers : {Authorization : `Bearer ${localStorage.getItem('authToken')}`},
+            withCredentials:true  // 날짜를 쿼리 파라미터로 전달
         });
         students.value = response.data;
     } catch (error) {

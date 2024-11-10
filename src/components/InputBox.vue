@@ -1,16 +1,28 @@
 <template>
     <div>
 
-        <input :type="props.type" :placeholder="props.placeholder">
-        <p>{{errText}}</p>
+        <input @blur="onBlur" @input="onInput" :type="props.type" :placeholder="props.placeholder">
+        <p v-if="childTouched">{{errText}}</p>
     </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
-    const props = defineProps(['type', 'placeholder', 'errText']);
+import { defineProps, defineEmits, ref, watch, } from 'vue';
+    const props = defineProps(['type', 'placeholder', 'errText' , 'touched']);
+    const childTouched = ref(props.touched);
 
-    
+    const emit = defineEmits(['updateValue']);
+    const onBlur = ()=>{
+        childTouched.value = true;
+    }
+    const onInput = (e)=>{
+        emit('updateValue', e.target.value);
+    }
+    watch(()=>props.touched, (newTouched)=>{
+        childTouched.value = newTouched;
+    })
+
+
 </script>
 
 <style scoped>

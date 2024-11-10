@@ -143,11 +143,12 @@ const updateCompletedPage = async (hw, page)=>{
   }
 }
 const updateComment = async (hw, comment)=>{
-  await axios.post("http://localhost:8000/api/homework-update", {
+  const res = await axios.post("http://localhost:8000/api/homework-update", {
       "homeworkId" : hw.homeworkId,
       "comment" : comment
     });
   hw.comment = comment;
+  hw.completeDatetime = res.data.completeDatetime;
 }
 
 </script>

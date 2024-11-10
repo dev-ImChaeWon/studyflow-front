@@ -72,58 +72,7 @@ const studentName = ref('');
 const currentPage = ref(1);
 const status = ref('complete');
 const totalItems = ref(0);
-const studentList = ref([
-    {
-        studentId: 1,
-        studentName: "김철수",
-        subjects: [
-            {
-                subjectId: 1,
-                subjectName: "초6수학",
-                teacher: null,
-                homework: [
-                    {
-                        homeworkId: 2,
-                        subject: null,
-                        student: null,
-                        homeworkPage: 5,
-                        homeworkDatetime: null,
-                        completedPage: 5,
-                        comment: "숙제 잘 했습니다.",
-                        completeDatetime: null
-                    },
-                    {
-                        homeworkId: 3,
-                        subject: null,
-                        student: null,
-                        homeworkPage: 9,
-                        homeworkDatetime: null,
-                        completedPage: 9,
-                        comment: "숙제 잘 했습니다.",
-                        completeDatetime: null
-                    },
-                ]
-            },
-            {
-                subjectId: 2,
-                subjectName: "국어",
-                teacher: null,
-                homework: [
-                    {
-                        homeworkId: 3,
-                        subject: null,
-                        student: null,
-                        homeworkPage: 9,
-                        homeworkDatetime: null,
-                        completedPage: 9,
-                        comment: "숙제 잘 했습니다.",
-                        completeDatetime: null
-                    }
-                ]
-            }
-        ]
-    }
-])
+const studentList = ref([])
 let dateToString = (target) => {
     let year = target.getFullYear();
     let month = target.getMonth() + 1;
