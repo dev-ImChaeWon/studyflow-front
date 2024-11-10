@@ -10,7 +10,7 @@
                 <button @click="showTeacherSetting">교사 정보 수정</button>
             </div>
         </div>
-    <StudentRegister v-else-if="showComponenet === 'studentRegister'" />
+    <StudentRegister v-else-if="showComponent === 'studentRegister'" />
     <StudentSetting v-else-if="showComponent === 'studentSetting'" />
     <TeacherRegister v-else-if="showComponent === 'teacherRegister'" />
     <TeacherSetting v-else-if="showComponent === 'teacherSetting'" />
