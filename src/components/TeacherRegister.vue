@@ -37,12 +37,15 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+// import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 const teacherName = ref('');
 const userId = ref('');
 const password = ref('');
 const selectedRole = ref('');
+
+// const router = useRouter();
 
 let inputs = {
   teacherName : {isErr : true , errMsg : "필수 입력 값입니다."},
@@ -210,7 +213,7 @@ onMounted(() => {
             const res = await axios.post('http://localhost:8000/api/teacher', data);
             console.log('교사 등록 성공: ', res.data);
             alert('신규 등록 성공');
-            
+
         } catch (e) {
             console.error('교사 등록 실패', e);
             alert('등록에 실패했습니다. 다시 시도해주세요.');

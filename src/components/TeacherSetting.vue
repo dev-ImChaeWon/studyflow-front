@@ -12,7 +12,10 @@
           {{ subject.subjectName }}
         </li>
       </div>
-      <button @click="showModal(teacher)">정보 수정</button>
+      <div class="button-container">
+        <button @click="showSubjectModal(teacher)">과목 추가하기</button>
+        <button @click="showModal(teacher)">정보 수정</button>
+      </div>
     </div>
 
     <div v-if="teacher.showModal" class="modal-wrapper active">
@@ -50,28 +53,30 @@
 
         <label 
           class="modal-content"
-          v-for="subject in teacher.subject" :key="subject.subjectId">
+          v-for="subject in teacher.subject" :key="subject.subjectId"
+          @click="subject.isEditing = true">
           {{ subject.subjectName }}
           <input 
             class="modal-content"
-            v-if="teacher.isEditing"
+            v-if="subject.isEditing"
             v-model="subject.subjectName"
-            @blur="teacher.isEditing = false"
-            @keyup.enter="teacher.isEditing = false"/>
+            @blur="subject.isEditing = false"
+            @keyup.enter="subject.isEditing = false"/>
         </label>
-
-        <!-- <div v-if="teacher.subjects && allSubjects.length > 0" class="teacher-subject-edit">
-          <label v-if="!teacher.isEditing" @click="teacher.isEditing = true">과목 수정</label>
-          <select v-if="teacher.isEditing" v-model="teacher.selectedSubject" class="modal-content">
-            <option v-for="subject in allSubjects" :key="subject.subjectId" :value="subject.subjectId">
-              {{ subject.subjectName }}
-            </option>
-          </select>
-        </div> -->
 
         <div class="button-group">
           <button @click="updateTeacher(teacher)">수정하기</button>
           <button @click="closePopup(teacher)">취소</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="teacher.showSubjectModal" class="modal-wrapper active">
+      <div class="modal">
+        
+        <div class="button-group">
+            <button @click="updateTeacher(teacher)">추가하기</button>
+            <button @click="closePopup(teacher)">취소</button>
         </div>
       </div>
     </div>
@@ -104,7 +109,11 @@ async function fetchTeacherList() {
 async function fetchAllSubjects() {
   try {
     const res = await axios.get('http://localhost:8000/api/subject');
-    allSubjects.value = res.data;
+    allSubjects.value = res.data.map(subject => ({
+      ...subject,
+      isEditing: false,
+      showModal: false
+    }));
   } catch (e) {
     console.error('전체 과목 목록을 가져오는 데 실패했습니다:', e);
   }
@@ -122,7 +131,6 @@ async function fetchTeacherSubjects(userId) {
 
 function showModal(teacher) {
   teacher.showModal = true;
-  document.body.style.overflow = 'hidden';
 
   fetchTeacherSubjects(teacher.userId).then(subjects => {
     teacher.subjects = subjects;
@@ -130,9 +138,19 @@ function showModal(teacher) {
   });
 }
 
+function showSubjectModal(teacher) {
+  teacher.showSubjectModal = true;
+
+}
+
 function closePopup(teacher) {
   teacher.showModal = false;
-  document.body.style.overflow = 'auto';
+  teacher.showSubjectModal = false;
+
+  setTimeout(() => {
+    document.body.style.overflow = 'auto'; 
+    document.documentElement.style.overflow = 'auto';
+  }, 30); 
 }
 
 async function updateTeacher(teacher) {
@@ -142,7 +160,11 @@ async function updateTeacher(teacher) {
       userName: teacher.userName,
       userRole: teacher.userRole,
       userPassword: teacher.userPassword,
-      subjectId: teacher.selectedSubject
+      subjectId: teacher.selectedSubject,
+      subject: teacher.subject.map(subject => ({
+        subjectId: subject.subjectId,
+        subjectName: subject.subjectName
+      }))
     };
 
     // PUT 요청을 통해 교사 정보 업데이트
@@ -231,6 +253,7 @@ button {
   border-radius: 8px;
   padding: 2px 4px;
   background-color: #3461FD;
+  box-shadow: 0 10px 30px -10px #3460fdc4;
   color: #dbe3ff;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
