@@ -86,7 +86,7 @@
         v-if="!teacher.isAddingSubject"
         @click="teacher.isAddingSubject = true"
         for="subject-name"
-      >
+        >
           추가할 과목 이름
         </label>
         <input
@@ -176,6 +176,7 @@ function showModal(teacher) {
   });
 }
 
+
 function showSubjectModal(teacher) {
   teacher.showSubjectModal = true;
 
@@ -191,6 +192,7 @@ function closePopup(teacher) {
   }, 30); 
 }
 
+// 교사 수정 함수
 async function updateTeacher(teacher) {
   try {
     const updatedTeacher = {
@@ -352,7 +354,7 @@ label{
 }
 
 .button-container {
-  
+  display: flex;
 }
 
 .button-container button {
