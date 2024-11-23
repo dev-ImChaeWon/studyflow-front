@@ -6,7 +6,7 @@
       <label for="subject">과목</label>
       <select v-model="selectedSubject" class="filter-input" name="subject" id="subject">
         <option value="all">전체</option>
-        <option v-for="s in subjects" :key="s.subjectId" :value="s.subjectName">{{s.subjectName}}</option>
+        <option v-for="s in subjects" :key="s.subjectId" :value="s.subjectId">{{s.subjectName}}</option>
       </select>
     </div>
     <div class="input-box">
@@ -46,7 +46,8 @@
         <input
           class="modal-content"
           v-if="student.isEditingName"
-          v-model="student.studentName"
+          :value="student.studentName"
+          @input ="(e)=> student.studentName = e.target.value"
           @blur="student.isEditingName = false" 
         />
 
@@ -137,7 +138,7 @@ async function fetchStudentListBySubjectName() {
   try {
     let url = `http://localhost:8000/api/student-by-subject`;
     if (selectedSubject.value !== 'all') {
-      url += `?subjectName=${selectedSubject.value}`; // 과목 이름을 쿼리 파라미터로 전달
+      url += `?subjectId=${selectedSubject.value}`; // 과목 이름을 쿼리 파라미터로 전달
     }
     const res = await axios.get(url);
 
@@ -160,6 +161,7 @@ async function fetchSubjectList() {
   try {
     const res = await axios.get('http://localhost:8000/api/subject');
     subjects.value = res.data;
+    console.log(res.data);
   } catch (e) {
     alert('서버에서 알 수 없는 오류가 발생했습니다.');
   }
@@ -236,10 +238,10 @@ async function updateStudent(student) {
     };
     await axios.put(`http://localhost:8000/api/student/${student.studentId}`, payload);
     alert('학생 정보가 성공적으로 수정되었습니다.');
-    closePopup();
-    fetchStudentListBySubjectName();
+    closePopup(selectedStudent.value);
   } catch (e) {
     alert('학생 정보 수정 중 오류가 발생했습니다.', e);
+    console.log(e);
   }
 }
 
