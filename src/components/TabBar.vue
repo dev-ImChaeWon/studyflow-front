@@ -1,9 +1,17 @@
 <template>   
         <div class="tab-container">
-            <div class="tabs" :class="tabNo===1 && 'active'" @click="changeTab(1)">원생관리</div>
-            <div class="tabs" :class="tabNo===2 && 'active'" @click="changeTab(2)">학습관리</div>
-            <div class="tabs" :class="tabNo===3 && 'active'" @click="changeTab(3)">수납관리</div>
-            <div class="tabs" :class="tabNo===4 && 'active'" @click="changeTab(4)">환경설정</div>
+            <div v-if="userRole === 'P'" style="display: contents;">
+                <div class="tabs" :class="tabNo===5 && 'active'" @click="changeTab(5)">주간평가</div>
+                <div class="tabs" :class="tabNo===6 && 'active'" @click="changeTab(6)">자녀수강정보</div>
+                <div class="tabs" :class="tabNo===7 && 'active'" @click="changeTab(7)">출석률</div>
+            </div>
+            <div v-else style="display: contents;">
+                <div class="tabs" :class="tabNo===1 && 'active'" @click="changeTab(1)">원생관리</div>
+                <div class="tabs" :class="tabNo===2 && 'active'" @click="changeTab(2)">학습관리</div>
+                <div class="tabs" :class="tabNo===3 && 'active'" @click="changeTab(3)">수납관리</div>
+                <div class="tabs" :class="tabNo===4 && 'active'" @click="changeTab(4)">환경설정</div>
+            </div>
+
         </div>
 
 </template>
@@ -11,7 +19,7 @@
 <script setup>
 
 import {defineProps} from "vue";
-defineProps(["tabNo", "changeTab"])
+defineProps(["tabNo", "changeTab", "userRole"])
 
 </script>
 

@@ -27,6 +27,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import Button from '../CustomButton.vue';
 import InputBox from '../InputBox.vue';
 import axios from 'axios';
@@ -37,6 +38,8 @@ const errMsg = ref('');
 const userId = ref('');
 const userPassword = ref('');
 
+const router = useRouter();
+
 const handleLogin = async ()=>{
     const res = await axios.post('http://localhost:8000/api/auth/signin', {
         userId : userId.value, 
@@ -46,11 +49,16 @@ const handleLogin = async ()=>{
 
     if(!res.data){
         errMsg.value = '아이디 또는 비밀번호를 확인해주세요.'
-        console.log(errMsg.value)
+        console.log(errMsg.value);
     }else{
+        // console.log(res.data);
         errMsg.value = '';
-        localStorage.setItem('authToken', res.data);
-
+        localStorage.setItem('authToken', res.data.authToken);
+        localStorage.setItem('userId', res.data.userId);
+        localStorage.setItem('userRole', res.data.userRole);
+        
+        router.replace('/');
+        
     }
 }
 

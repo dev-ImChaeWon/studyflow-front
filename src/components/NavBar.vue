@@ -6,14 +6,31 @@
             </router-link>
         </div>
         <div>
-            <router-link to="/login">
-                <button class="add-button">로그인</button>
-            </router-link>
+            {{userId}}
+            <button class="add-button" @click="logout">로그아웃</button>
         </div>
     </nav>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const userId = ref('');
+
+const logout = () => {
+  // localStorage에서 authToken을 제거
+  localStorage.removeItem('authToken');
+  
+  // 로그아웃 후 로그인 페이지로 리디렉션
+  router.push('/login');
+};
+
+onMounted(()=>{
+    userId.value = localStorage.getItem("userId");
+})
+</script>
 
 <style scoped>
 nav {
