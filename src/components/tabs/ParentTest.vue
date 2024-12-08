@@ -8,6 +8,10 @@
 import { ref } from 'vue';
 import CalendarTab from '../CalendarTab.vue';
 import TestCard from '../TestCard.vue';
+import { useRoute } from 'vue-router';
+
+let route = useRoute();
+console.log(route.params.id);
 
 let dateToString = (target) => {
     let year = target.getFullYear();

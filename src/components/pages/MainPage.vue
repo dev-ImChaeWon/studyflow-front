@@ -5,7 +5,6 @@
         <StudyManagement v-else-if="tabNo===2"/>
         <BillManagement v-else-if="tabNo===3"/>
         <SettingManagement v-else-if="tabNo===4"/>
-        <ParentTest v-else-if="tabNo===5"/>
         <ParentChildInfo v-else-if="tabNo===6"/>
         <ParentChildAttendance v-else-if="tabNo===7"/>
     </main>
@@ -19,7 +18,6 @@ import StudentManagement from '../tabs/StudentManagement.vue';
 import StudyManagement from '../tabs/StudyManagement.vue';
 import BillManagement from '../tabs/BillManagement.vue';
 import SettingManagement from '../tabs/SettingManagement.vue';
-import ParentTest from '../tabs/ParentTest.vue';
 import ParentChildInfo from '../tabs/ParentChildInfo.vue';
 import ParentChildAttendance from '../tabs/ParentChildAttendance.vue';
 
@@ -34,7 +32,7 @@ import ParentChildAttendance from '../tabs/ParentChildAttendance.vue';
 onMounted(()=>{
     userRole.value = localStorage.getItem("userRole");
     if(userRole.value === 'P'){
-        tabNo.value = 5;
+        tabNo.value = 6;
     }
 });
 
