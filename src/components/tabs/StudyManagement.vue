@@ -84,7 +84,6 @@ let date = new Date();
 let today = dateToString(date);
 let selectedDate = ref(today);
 
-
 const teachers = ref([]);
 
 watch([selectedTeacher, totalItems, studentName, currentPage, selectedDate, status], (current) => {

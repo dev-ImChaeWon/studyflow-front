@@ -9,11 +9,15 @@
                 <button @click="showTeacherRegister">교사 등록</button>
                 <button @click="showTeacherSetting">교사 정보 수정</button>
             </div>
+            <div class="parent-manage">
+                <button @click="showParentRegister">학부모 자녀 등록</button>
+            </div>
         </div>
     <StudentRegister v-else-if="showComponent === 'studentRegister'" />
     <StudentSetting v-else-if="showComponent === 'studentSetting'" />
     <TeacherRegister v-else-if="showComponent === 'teacherRegister'" />
     <TeacherSetting v-else-if="showComponent === 'teacherSetting'" />
+    <ParentRegister v-else-if="showComponent === 'parentRegister'" />
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -21,6 +25,7 @@ import StudentRegister from '../StudentRegister.vue';
 import StudentSetting from '../StudentSetting.vue';
 import TeacherSetting from '../TeacherSetting.vue';
 import TeacherRegister from '../TeacherRegister.vue';
+import ParentRegister from '../ParentRegister.vue';
 
 const showComponent = ref('default');
 
@@ -39,9 +44,13 @@ function showTeacherRegister() {
 function showTeacherSetting() {
     showComponent.value = 'teacherSetting';
 }
+
+function showParentRegister() {
+    showComponent.value = 'parentRegister';
+}
 </script>
 <style scoped>
-.teacher-manage, .student-manage {
+.teacher-manage, .student-manage, .parent-manage {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -79,5 +88,22 @@ function showTeacherSetting() {
 .teacher-manage button:hover {
     cursor: pointer;
     background-color: #465ba7;
+}
+
+.parent-manage button {
+    border-radius: 7px;
+    border-style: hidden;
+    margin: 10px 20%;
+    flex: auto;
+    padding: 10px;
+    font-size: large;
+    color: #dbe3ff;
+    background-color: #5c85ff;
+    transition: background-color 0.25s, color 0.25s;
+}
+
+.parent-manage button:hover {
+    cursor: pointer;
+    background-color: #5176e3;
 }
 </style>
