@@ -7,13 +7,15 @@ import PasswordResetPage from '@/components/pages/PasswordResetPage.vue';
 import CreateHomework from '@/components/pages/CreateHomework.vue';
 import MainLayout from '@/components/layout/MainLayout.vue';
 import {  createRouter, createWebHistory } from 'vue-router'
+import ParentTest from '@/components/tabs/ParentTest.vue';
 
 
 const routes = [
     { path: '/', component: MainLayout,
       children:[
         {path:'', component:MainPage},
-        {path:'student/:studentId/homework', component:CreateHomework}
+        {path:'student/:studentId/homework', component:CreateHomework},
+        {path:'student-subject/:id', component:ParentTest},
       ],
       meta: { requiresAuth: true },
      },

@@ -1,7 +1,6 @@
 <template>   
         <div class="tab-container">
             <div v-if="userRole === 'P'" style="display: contents;">
-                <div class="tabs" :class="tabNo===5 && 'active'" @click="changeTab(5)">주간평가</div>
                 <div class="tabs" :class="tabNo===6 && 'active'" @click="changeTab(6)">자녀수강정보</div>
                 <div class="tabs" :class="tabNo===7 && 'active'" @click="changeTab(7)">출석률</div>
             </div>
