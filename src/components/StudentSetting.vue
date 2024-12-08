@@ -263,8 +263,6 @@ async function deleteSubject(subject, student) {
   }
 }
 
-
-
 onMounted(() => {
   fetchSubjectList();
   fetchStudentListBySubjectName();

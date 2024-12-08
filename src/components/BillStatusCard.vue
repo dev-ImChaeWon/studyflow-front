@@ -1,34 +1,23 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <h2 class="student-name">김철수</h2>
-      <p>납부기한 2023-11-10</p> <!-- 납부기한: {{ ref }} -->
+      <h2 class="student-name">{{ student.studentName }}</h2>
     </div>
     <div class="card-body">
       <div class="bill-container">
-        <div class="subject-container">
-          <h4>초6수학</h4>
+        <div class="subject-container" v-for="subject in subjects" :key="subject.subjectId">
+          <h4 class="subject-name">{{ subject.subjectName }}</h4>
           <span class="status-icon">
             <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1"
             xmlns="http://www.w3.org/2000/svg">
             <path
             d="M511.9 183.1c-181.8 0-329.1 147.4-329.1 329.1 0 181.8 147.4 329.1 329.1 329.1C693.6 841.3 841 694 841 512.2S693.6 183.1 511.9 183.1z m0 585.1c-141.2 0-256-114.8-256-256s114.8-256 256-256 256 114.8 256 256-114.9 256-256 256z"
             fill="green" />
-            <path d="M487.4 556.8l-97.8-87.6-48.8 54.4 153.1 137.2 192.2-221.2-55.2-48z" fill="green" /></svg>
+            <path d="M487.4 556.8l-97.8-87.6-48.8 54.4 153.1 137.2 192.2-221.2-55.2-48z" fill="green" />
+          </svg>
+          <p class="pay-date">{{ billData }}</p>
           </span>
-          <button type="button">납부하기</button>   
-        </div>
-        <div class="subject-container">
-          <h4>영어</h4>
-            <span class="status-icon">
-            <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M511.9 183.1c-181.8 0-329.1 147.4-329.1 329.1 0 181.8 147.4 329.1 329.1 329.1C693.6 841.3 841 694 841 512.2S693.6 183.1 511.9 183.1z m0 585.1c-141.2 0-256-114.8-256-256s114.8-256 256-256 256 114.8 256 256-114.9 256-256 256z"
-                fill="green" />
-              <path d="M487.4 556.8l-97.8-87.6-48.8 54.4 153.1 137.2 192.2-221.2-55.2-48z" fill="green" /></svg>
-            </span>
-            <button type="button">납부하기</button>   
+          <button type="button">납부하기</button>
         </div>
       </div>
     </div>
@@ -36,7 +25,76 @@
 </template>
 
 <script setup>
+import { ref, onMounted, defineProps } from 'vue';
+import axios from 'axios';
 
+const props = defineProps({
+  student: {
+    type: Object,
+    required: true,
+  },
+});
+
+const subjects = ref([]);
+// const paymentDueDate = '2023-11-10';
+
+// 각 subject에 대해 studentId와 subjectId로 데이터를 가져오는 함수
+async function fetchStudentSubject(studentId, subjectId) {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/student-subject/${studentId}/${subjectId}`
+    );
+    return response.data;
+  } catch (e) {
+    console.error(`학생-과목 데이터를 가져오는 데 실패했습니다: subjectId=${subjectId}`, e);
+    return null;
+  }
+}
+
+// studentId를 받아서 해당 학생의 과목 리스트를 가져오는 함수
+async function fetchSubjects(studentId) {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/student-subject?studentId=${studentId}`
+    );
+    subjects.value = await Promise.all(
+      response.data.map(async (subject) => {
+        // 각 subject에 대해 studentId와 subjectId로 추가 데이터를 가져옴
+        const studentSubjectData = await fetchStudentSubject(studentId, subject.subjectId);
+        const billData = await fetchBillMangement(studentSubjectData);
+        
+        return { ...subject, 
+          additionalData: studentSubjectData, 
+          billData, 
+        };
+      })
+    );
+  } catch (e) {
+    console.error('과목 리스트를 가져오는 데 실패했습니다:', e);
+  }
+}
+
+
+async function fetchBillMangement(studentSubjectData){
+  try {
+    const response = await axios.get('http://localhost:8000/api/bill-management');
+    //
+    const filteredData = response.data.filter((bill) => {
+      return bill.id === studentSubjectData.id;
+    });
+
+    console.log('Filtered Bill Data:', filteredData);
+
+    return filteredData;
+  } catch (e) {
+    console.error('수납 정보를 가져오는 데 실패했습니다:', e);
+  }
+
+}
+
+onMounted(() => {
+  fetchSubjects(props.student.studentId);
+});
 </script>
 
 <style scoped>

@@ -1,58 +1,70 @@
 <template>
-    <h1>수납관리</h1>
-    <div class="filter-header">
-        
+  <h1>수납관리</h1>
+  <div class="filter">
+    <div class="input-box">
+      <label for="student-name">학생 : </label>
+      <input v-model="studentName" placeholder="Enter를 눌러 검색하세요" class="filter-input" id="student-name" />
     </div>
-    <div class="filter">
-        <div class="input-box">
-            <label for="teacher">과목</label>
-            <select class="filter-input" name="subject" id="subject">
-                <option value="all">전체</option>
-                <option v-for="s in subjects" :key="s.subjectId" :value="s.subjectId">{{s.subjectName}}</option>
-            </select>
-        </div>
-        <div class="input-box">
-            <label for="student-name">학생 : </label>
-            <input placeholder="Enter를 눌러 검색하세요" class="filter-input" id="student-name"/>
-        </div>
-    </div>
+  </div>
 
-    <CalendarTab :default-date="selectedDate" :today="today" />
-    <BillStatusCard/>
+  <CalendarTab :today="today" :defaultDate="selectedDate" @update-date="fetchStudentListByDate" />
+
+  <div v-if="studentList.length > 0">
+    <BillStatusCard
+      v-for="student in filteredStudents"
+      :key="student.studentId"
+      :student="student"
+    />
+  </div>
+  <div v-else>
+    <p>학생 목록이 없습니다.</p>
+  </div>
 </template>
+
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import axios from 'axios';
 import BillStatusCard from '../BillStatusCard.vue';
 import CalendarTab from '../CalendarTab.vue';
-let dateToString = (target) => {
-    let year = target.getFullYear();
-    let month = target.getMonth() + 1;
-    let date = target.getDate();
 
-    return '' + year + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
+let dateToString = (target) => {
+  let year = target.getFullYear();
+  let month = target.getMonth() + 1;
+  let date = target.getDate();
+  
+  return '' + year + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
 }
 
 const date = new Date();
 let today = dateToString(date);
 let selectedDate = ref(today);
-const subjects = ref([]);
+const studentList = ref([]);  // 빈 배열로 초기화
+const studentName = ref('');
 
+const fetchStudentList = async () => {
+  try {
+    const response = await axios.get('http://localhost:8000/api/all-student'); // 학생 정보 API 호출
+    studentList.value = response.data;  // 받아온 학생 데이터를 studentList에 저장
+  } catch (e) {
+    console.error('학생 정보를 가져오는 데 실패했습니다:', e);
+  }
+};
 
-async function fetchSubjectList(){
-    try{
-        let res = await axios.get('http://localhost:8000/api/subject');
-        subjects.value = res.data;
-    }catch(e){
-        alert('서버에서 알 수 없는 오류가 발생했습니다. 잠시후 다시 시도해주세요');
-    }
-}
+const filteredStudents = computed(() => {
+  return studentList.value.filter(student => {
+    return (
+      studentName.value.trim() === '' ||
+      student.studentName.toLowerCase().includes(studentName.value.trim().toLowerCase())
+    );
+  });
+});
 
 onMounted(()=>{
-    fetchSubjectList();
+  fetchStudentList();
 })
 
 </script>
+
 <style scoped>
 .filter-header{
     padding: 25px 0 15px;
