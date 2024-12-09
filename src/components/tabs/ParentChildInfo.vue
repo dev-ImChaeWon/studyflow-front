@@ -1,26 +1,24 @@
 <template>
   <h1>자녀 수강정보</h1>
-  
-  <RouterLink :to="'/student-subject/' + s.id " v-for="(s , idx) in subjects" v-bind:key="idx" class="box">
-    <p class="student-name">{{ s.studentName }}</p>
-    <p class="subject-name">{{s.subjectName}}</p>
+  <RouterLink  :to="'/student-subject/' + s.id " v-for="(s , idx) in subjects" v-bind:key="idx" class="box">
+    <p class="student-name">{{ s.student.studentName }}</p>
+    <p class="subject-name">{{s.subject.subjectName}}</p>
   </RouterLink>
 
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
 
 
-const subjects = ref([
-  {id:21, subjectName:"영어단어",  studentName:"박아름"}, 
-  {id:20, subjectName:"온라인영어",  studentName:"박아름"} , 
-  {id:19, subjectName:"JAVA",  studentName:"홍길동"} , 
-  {id:18, subjectName:"python",  studentName:"홍길동"}
-]
-);
+const subjects = ref([]);
 
 
+onMounted(async ()=>{
+  const res  = await axios.get("http://localhost:8000/api/parent-student-info?parentId=" + localStorage.getItem("userId"));
+  subjects.value = res.data;
+});
 </script>
 
 
