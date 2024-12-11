@@ -2,7 +2,7 @@
   <p class="title">주간평가 점수 등록</p>
   <form class="auth-container" @submit.prevent="handleSubmit">
     <div class="register-box">
-      <div class="input-container">
+      <div class="input-container" :class="{ blurred: studentName }">
         <div class="input-box">
           <label for="student-name">학생 : </label>
           <input v-model="studentName" placeholder="Enter를 눌러 검색하세요" class="filter-input" id="student-name" />
@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div class="input-container" v-if="selectedStudentId">
+      <div class="input-container" v-if="selectedStudentId" :class="{ blurred: selectedSubjectId  }">
         <div class="input-box">
           <label for="subject-name">과목 : </label>
           <select id="subject-id" class="input-content" v-model="selectedSubjectId">
@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="input-container" v-if="selectedSubjectId">
+      <div class="input-container" v-if="selectedSubjectId" :class="{ blurred: selectedTestScore }">
         <div class="input-box">
           <label for="test-score">점수 입력 : </label>
           <input
@@ -142,6 +142,7 @@ const handleSubmit = async () => {
     alert("등록에 실패했습니다. 다시 시도해주세요.");
   }
 };
+
 </script>
 
 
@@ -221,6 +222,14 @@ li {
   margin: 10px;
   flex: 1;
   margin-right: 8px;
+}
+
+.input-container {
+  transition: filter 0.3s ease;
+}
+
+.input-container.blurred {
+  /* filter: blur(1px); */
 }
 
 /* Auth Style */
