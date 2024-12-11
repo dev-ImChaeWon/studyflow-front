@@ -1,5 +1,5 @@
 <template>
-    <p class="title">학부모 자녀 등록</p>
+  <p class="title">학부모 자녀 등록</p>
     <form class="auth-container">
         <div class="register-box">
             <div class="input-box">

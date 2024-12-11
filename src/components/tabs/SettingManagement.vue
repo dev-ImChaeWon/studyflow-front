@@ -11,6 +11,7 @@
             </div>
             <div class="parent-manage">
                 <button @click="showParentRegister">학부모 자녀 등록</button>
+                <button @click="showTestScoreRegister">주간평가 점수 등록</button>
             </div>
         </div>
     <StudentRegister v-else-if="showComponent === 'studentRegister'" />
@@ -18,6 +19,7 @@
     <TeacherRegister v-else-if="showComponent === 'teacherRegister'" />
     <TeacherSetting v-else-if="showComponent === 'teacherSetting'" />
     <ParentRegister v-else-if="showComponent === 'parentRegister'" />
+    <TestScoreRegister v-else-if="showComponent === 'testScoreRegister'" />
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -26,6 +28,7 @@ import StudentSetting from '../StudentSetting.vue';
 import TeacherSetting from '../TeacherSetting.vue';
 import TeacherRegister from '../TeacherRegister.vue';
 import ParentRegister from '../ParentRegister.vue';
+import TestScoreRegister from '../TestScoreRegister.vue';
 
 const showComponent = ref('default');
 
@@ -47,6 +50,10 @@ function showTeacherSetting() {
 
 function showParentRegister() {
     showComponent.value = 'parentRegister';
+}
+
+function showTestScoreRegister() {
+    showComponent.value = 'testScoreRegister';
 }
 </script>
 <style scoped>
