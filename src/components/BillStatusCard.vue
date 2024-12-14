@@ -10,12 +10,12 @@
           <span class="status-icon">
             <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1"
             xmlns="http://www.w3.org/2000/svg">
-            <path
-            d="M511.9 183.1c-181.8 0-329.1 147.4-329.1 329.1 0 181.8 147.4 329.1 329.1 329.1C693.6 841.3 841 694 841 512.2S693.6 183.1 511.9 183.1z m0 585.1c-141.2 0-256-114.8-256-256s114.8-256 256-256 256 114.8 256 256-114.9 256-256 256z"
-            fill="green" />
-            <path d="M487.4 556.8l-97.8-87.6-48.8 54.4 153.1 137.2 192.2-221.2-55.2-48z" fill="green" />
-          </svg>
-          <p class="pay-date">{{ billData }}</p>
+              <path
+              d="M511.9 183.1c-181.8 0-329.1 147.4-329.1 329.1 0 181.8 147.4 329.1 329.1 329.1C693.6 841.3 841 694 841 512.2S693.6 183.1 511.9 183.1z m0 585.1c-141.2 0-256-114.8-256-256s114.8-256 256-256 256 114.8 256 256-114.9 256-256 256z"
+              fill="green" />
+              <path d="M487.4 556.8l-97.8-87.6-48.8 54.4 153.1 137.2 192.2-221.2-55.2-48z" fill="green" />
+            </svg>
+            <p class="pay-date">{{ billData }}</p>
           </span>
           <button type="button">납부하기</button>
         </div>
@@ -61,7 +61,8 @@ async function fetchSubjects(studentId) {
       response.data.map(async (subject) => {
         // 각 subject에 대해 studentId와 subjectId로 추가 데이터를 가져옴
         const studentSubjectData = await fetchStudentSubject(studentId, subject.subjectId);
-        const billData = await fetchBillMangement(studentSubjectData);
+        const billData = await fetchBillManagement(studentSubjectData);
+        console.log('billData : ' , billData);
         
         return { ...subject, 
           additionalData: studentSubjectData, 
@@ -74,13 +75,15 @@ async function fetchSubjects(studentId) {
   }
 }
 
-
-async function fetchBillMangement(studentSubjectData){
+async function fetchBillManagement(studentSubjectData){
   try {
     const response = await axios.get('http://localhost:8000/api/bill-management');
-    //
+    
     const filteredData = response.data.filter((bill) => {
-      return bill.id === studentSubjectData.id;
+      console.log('bill : ', bill);
+      console.log('bill.billId : ', bill.billId);
+      console.log('studentSubjectData.id : ', studentSubjectData.id);
+      return bill.billId === studentSubjectData.id;
     });
 
     console.log('Filtered Bill Data:', filteredData);
@@ -89,8 +92,18 @@ async function fetchBillMangement(studentSubjectData){
   } catch (e) {
     console.error('수납 정보를 가져오는 데 실패했습니다:', e);
   }
-
 }
+
+// async function fetchBillManagementByStudentSubjectId(studentSubjectData) {
+//   try {
+//     const res = await axios.get(`http://localhost:8000/api/bill-management/${studentSubjectData.id}`);
+
+//     return res;
+//   } catch (e) {
+//     console.error('수납 정보를 가져오는 데 실패했습니다:', e);
+//   }
+// }
+
 
 onMounted(() => {
   fetchSubjects(props.student.studentId);
