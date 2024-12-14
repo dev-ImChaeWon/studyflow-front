@@ -23,20 +23,77 @@ onMounted(async ()=>{
 
 
 <style scoped>
-.box{
-  border: 3px solid black;
+/* 전체 박스 스타일 */
+.box {
+  background-color: #fff;
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 10px; /* box 사이 간격을 추가 */
 }
 
-.student-name{
-  border: 3px solid red;
+.box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.subject-name{
-  border: 3px solid green;
+/* 학생 이름 */
+.student-name {
+  background-color: #f3f9ff;
+  color: #2c3e50;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-weight: 500;
+  text-align: center;
+  font-size: 16px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
 }
 
+/* 과목 이름 */
+.subject-name {
+  background-color: #eaf4ea;
+  color: #2c3e50;
+  border-radius: 6px;
+  padding: 12px 20px;
+  font-weight: 500;
+  text-align: center;
+  font-size: 16px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 기본 텍스트 스타일 */
+.box > div {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .box {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px;
+  }
+
+  .student-name, .subject-name {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
 </style>
