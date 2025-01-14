@@ -77,7 +77,7 @@ let today = dateToString(date);
 let selectedDate = ref(today);
 const selectedSubjectId = ref(null);
 
-const student = ref(null);
+const student = ref({ studentId: '', studentName: '', subjects: [] });
 
 const isPopupVisible = ref(false);
 
@@ -91,23 +91,35 @@ const closePopup = () => {
 };
 
 const addHomework = async ({ subjectId, page }) => {
-
   const res = await axios.post(`http://localhost:8000/api/homework-create`, {
     subject: { subjectId: subjectId },
-    student: { studentId: student.value.studentId },
+    student: { studentId: student.value?.studentId },
     homeworkPage: page
   });
-  const subject = student.value.subjects.find(subj => subj.subjectId === subjectId);
-  if (subject) {
-    subject.homework.push({
-      homeworkId: res.data.homeworkId,
-      homeworkPage: res.data.homeworkPage,
-      completedPage: res.data.completedPage,
-      comment: res.data.comment,
-      homeworkDatetime: res.data.homeworkDatetime,
-      completeDatetime: res.data.completeDatetime
-    });
+
+  if (!student.value || !student.value.subjects) {
+    console.error('Student or subjects data is not initialized');
+    return;
   }
+
+  const subject = student.value.subjects.find(subj => subj.subjectId === subjectId);
+  if (!subject) {
+    console.error('Subject not found');
+    return;
+  }
+
+  if (!subject.homework) {
+    subject.homework = []; // homework 배열 초기화
+  }
+
+  subject.homework.push({
+    homeworkId: res.data.homeworkId,
+    homeworkPage: res.data.homeworkPage,
+    completedPage: res.data.completedPage,
+    comment: res.data.comment,
+    homeworkDatetime: res.data.homeworkDatetime,
+    completeDatetime: res.data.completeDatetime
+  });
 };
 
 const updateDate = (newDate) => {

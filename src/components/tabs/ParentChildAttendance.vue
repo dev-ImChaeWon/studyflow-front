@@ -1,4 +1,54 @@
 <template>
-  <h1>출석 요약</h1>
-  <h1>최근 출석 현황</h1>
+  <h1>출석률</h1>
+  <div v-if="attendanceList.length > 0">
+    <p>총 출석률: {{ attendanceRate.toFixed(2) }}%</p>
+  </div>
+  <div v-else>
+    <p>출석 데이터가 없습니다.</p>
+  </div>
 </template>
+
+<script setup>
+import { ref, computed, onMounted } from "vue";
+import axios from "axios";
+
+const attendanceList = ref([]);
+
+// 출석률 계산
+const attendanceRate = computed(() => {
+  if (attendanceList.value.length === 0) return 0;
+
+  // "결석"이 아닌 경우 1, "결석"인 경우 0으로 계산
+  const presentCount = attendanceList.value.reduce((count, item) => {
+    return count + (item.isAttend === "결석" ? 0 : 1);
+  }, 0);
+
+  return (presentCount / attendanceList.value.length) * 100;
+});
+
+const loadAttendanceData = async () => {
+  try {
+    const studentId = 1; // 테스트용 나중에 해당학부모의 자녀 ID로 동적 해당할것
+    console.log(`Request URL: /api/attendance/${studentId}`);
+    const response = await axios.get(`http://localhost:8088/api/attendance/${studentId}`);
+    attendanceList.value = response.data;
+  } catch (e) {
+    console.error("출석 데이터를 불러오는 중 오류 발생:", e);
+  }
+};
+
+onMounted(() => {
+  loadAttendanceData();
+});
+</script>
+
+<style scoped>
+h1 {
+  color: #333;
+}
+
+p {
+  font-size: 1.2em;
+  margin: 0.5em 0;
+}
+</style>
