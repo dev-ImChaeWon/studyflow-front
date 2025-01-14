@@ -2,6 +2,12 @@
   <h1>출석률</h1>
   <div v-if="attendanceList.length > 0">
     <p>총 출석률: {{ attendanceRate.toFixed(2) }}%</p>
+    <ol>
+      <li>출석: {{  }}</li>
+      <li>지각: {{  }}</li>
+      <li>조퇴: {{  }}</li>
+      <li>결석: {{  }}</li>
+    </ol>
   </div>
   <div v-else>
     <p>출석 데이터가 없습니다.</p>
@@ -28,9 +34,10 @@ const attendanceRate = computed(() => {
 
 const loadAttendanceData = async () => {
   try {
-    const studentId = 1; // 테스트용 나중에 해당학부모의 자녀 ID로 동적 해당할것
+    const student  = await axios.get("http://localhost:8000/api/parent-student-info?parentId=" + localStorage.getItem("userId"));
+    const studentId = student.data[0].student.studentId;
     console.log(`Request URL: /api/attendance/${studentId}`);
-    const response = await axios.get(`http://localhost:8088/api/attendance/${studentId}`);
+    const response = await axios.get(`http://localhost:8000/api/attendance/${studentId}`);
     attendanceList.value = response.data;
   } catch (e) {
     console.error("출석 데이터를 불러오는 중 오류 발생:", e);
