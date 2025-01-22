@@ -1,6 +1,6 @@
 <template>
   <h1>출석률</h1>
-  <div v-if="attendanceList.length > 0">
+  <div v-if="attendanceList.length > 0" class="box">
     <p>총 출석률: {{ attendanceRate.toFixed(2) }}%</p>
     <ul>
       <li>출석: {{ presence }}</li>
@@ -82,5 +82,18 @@ h1 {
 p {
   font-size: 1.2em;
   margin: 0.5em 0;
+}
+
+.box {
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 10px; /* box 사이 간격을 추가 */
 }
 </style>

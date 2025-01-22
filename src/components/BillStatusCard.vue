@@ -5,19 +5,44 @@
     </div>
     <div class="card-body">
       <div class="bill-container">
-        <div class="subject-container" v-for="subject in subjects" :key="subject.subjectId">
-          <h4 class="subject-name">{{ subject.subjectName }}</h4>
-          <span class="status-icon">
-            <svg width="20px" height="20px" viewBox="0 0 1024 1024" class="icon" version="1.1"
-            xmlns="http://www.w3.org/2000/svg">
-              <path
-              d="M511.9 183.1c-181.8 0-329.1 147.4-329.1 329.1 0 181.8 147.4 329.1 329.1 329.1C693.6 841.3 841 694 841 512.2S693.6 183.1 511.9 183.1z m0 585.1c-141.2 0-256-114.8-256-256s114.8-256 256-256 256 114.8 256 256-114.9 256-256 256z"
-              fill="green" />
-              <path d="M487.4 556.8l-97.8-87.6-48.8 54.4 153.1 137.2 192.2-221.2-55.2-48z" fill="green" />
-            </svg>
-            <p class="pay-date">{{ billData }}</p>
-          </span>
-          <button type="button">납부하기</button>
+        <div
+          class="subject-container"
+          v-for="subject in subjects"
+          :key="subject.subjectId"
+        >
+          <div class="subject-inner-content">
+            <h4 class="subject-name">{{ subject.subjectName }}</h4>
+            <span
+              v-if="subject.billData?.isPay"
+              class="status-icon"
+            >
+              <svg
+                width="20px"
+                height="20px"
+                viewBox="0 0 1024 1024"
+                class="icon"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M511.9 183.1c-181.8 0-329.1 147.4-329.1 329.1 0 181.8 147.4 329.1 329.1 329.1C693.6 841.3 841 694 841 512.2S693.6 183.1 511.9 183.1z m0 585.1c-141.2 0-256-114.8-256-256s114.8-256 256-256 256 114.8 256 256-114.9 256-256 256z"
+                  fill="green"
+                />
+                <path
+                  d="M487.4 556.8l-97.8-87.6-48.8 54.4 153.1 137.2 192.2-221.2-55.2-48z"
+                  fill="green"
+                />
+              </svg>
+            </span>
+          </div>
+          <div class="subject-inner-content">
+            <p>
+              {{ formatDate(subject.billData?.payDate) || "납부 정보 없음" }}
+            </p>
+            <button type="button" @click="handlePay(subject)">
+              납부하기
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -25,8 +50,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from 'vue';
-import axios from 'axios';
+import { ref, onMounted, defineProps } from "vue";
+import axios from "axios";
 
 const props = defineProps({
   student: {
@@ -36,9 +61,15 @@ const props = defineProps({
 });
 
 const subjects = ref([]);
-// const paymentDueDate = '2023-11-10';
 
-// 각 subject에 대해 studentId와 subjectId로 데이터를 가져오는 함수
+// 날짜 형식을 YYYY-MM-DD로 변환하는 함수
+function formatDate(dateString) {
+  if (!dateString) return ""; // 빈 값 처리
+  const date = new Date(dateString);
+  return date.toISOString().split("T")[0]; // YYYY-MM-DD 형식 반환
+}
+
+// 학생-과목 데이터를 가져오는 함수
 async function fetchStudentSubject(studentId, subjectId) {
   try {
     const response = await axios.get(
@@ -46,12 +77,15 @@ async function fetchStudentSubject(studentId, subjectId) {
     );
     return response.data;
   } catch (e) {
-    console.error(`학생-과목 데이터를 가져오는 데 실패했습니다: subjectId=${subjectId}`, e);
+    console.error(
+      `학생-과목 데이터를 가져오는 데 실패했습니다: subjectId=${subjectId}`,
+      e
+    );
     return null;
   }
 }
 
-// studentId를 받아서 해당 학생의 과목 리스트를 가져오는 함수
+// 과목 리스트를 가져오는 함수
 async function fetchSubjects(studentId) {
   try {
     const response = await axios.get(
@@ -59,51 +93,68 @@ async function fetchSubjects(studentId) {
     );
     subjects.value = await Promise.all(
       response.data.map(async (subject) => {
-        // 각 subject에 대해 studentId와 subjectId로 추가 데이터를 가져옴
-        const studentSubjectData = await fetchStudentSubject(studentId, subject.subjectId);
+        const studentSubjectData = await fetchStudentSubject(
+          studentId,
+          subject.subjectId
+        );
         const billData = await fetchBillManagement(studentSubjectData);
-        console.log('billData : ' , billData);
-        
-        return { ...subject, 
-          additionalData: studentSubjectData, 
-          billData, 
+        return {
+          ...subject,
+          additionalData: studentSubjectData,
+          billData,
         };
       })
     );
   } catch (e) {
-    console.error('과목 리스트를 가져오는 데 실패했습니다:', e);
+    console.error("과목 리스트를 가져오는 데 실패했습니다:", e);
   }
 }
 
-async function fetchBillManagement(studentSubjectData){
+// 수납 정보를 가져오는 함수
+async function fetchBillManagement(studentSubjectData) {
   try {
-    const response = await axios.get('http://localhost:8000/api/bill-management');
-    
-    const filteredData = response.data.filter((bill) => {
-      console.log('bill : ', bill);
-      console.log('bill.billId : ', bill.billId);
-      console.log('studentSubjectData.id : ', studentSubjectData.id);
-      return bill.billId === studentSubjectData.id;
-    });
+    const response = await axios.get("http://localhost:8000/api/bill-management");
+    const filteredData = response.data.filter(
+      (bill) => bill.billId === studentSubjectData.id
+    );
 
-    console.log('Filtered Bill Data:', filteredData);
-
-    return filteredData;
+    return filteredData[0] || null;
   } catch (e) {
-    console.error('수납 정보를 가져오는 데 실패했습니다:', e);
+    console.error("수납 정보를 가져오는 데 실패했습니다:", e);
   }
 }
 
-// async function fetchBillManagementByStudentSubjectId(studentSubjectData) {
-//   try {
-//     const res = await axios.get(`http://localhost:8000/api/bill-management/${studentSubjectData.id}`);
+// 납부하기 버튼 클릭 핸들러
+async function handlePay(subject) {
+  if (subject.billData?.isPay) {
+    alert("이미 납부된 과목입니다.");
+    return;
+  }
 
-//     return res;
-//   } catch (e) {
-//     console.error('수납 정보를 가져오는 데 실패했습니다:', e);
-//   }
-// }
+  const studentSubjectData = await fetchStudentSubject(
+    props.student.studentId,
+    subject.subjectId
+  );
 
+  const payload = {
+    billId: studentSubjectData.id,
+    isPay: true,
+    payDate: new Date().toISOString(),
+    pay: 1, // 납부 금액이 1이면, 서버에서 해당 과목의 원래 수납액으로 알아서 저장
+  };
+
+  try {
+    await axios.post(
+      "http://localhost:8000/api/bill-management-update",
+      payload
+    );
+    alert("납부되었습니다.");
+    // 성공 후 UI 업데이트
+    subject.billData.isPay = true;
+  } catch (e) {
+    console.error("납부 업데이트에 실패했습니다:", e);
+  }
+}
 
 onMounted(() => {
   fetchSubjects(props.student.studentId);
@@ -133,11 +184,16 @@ onMounted(() => {
   font-size: 14px;
 }
 
+.subject-inner-content {
+  display: flex;
+
+}
+
 .subject-container {
   margin-left: 20px;
   margin-top: 10px;
-  display: grid;
-  grid-template-columns: auto auto 1fr;
+  display: flex;
+  justify-content: space-between;
   column-gap: 10px;
   justify-items: flex-end;
   row-gap: 5px;
@@ -150,7 +206,7 @@ onMounted(() => {
   background-color: #3461FD;
   color: #dbe3ff;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .subject-container button:hover {

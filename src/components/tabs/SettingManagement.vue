@@ -2,16 +2,19 @@
     <h1>환경설정</h1>
         <div v-if="showComponent === 'default'">
             <div class="student-manage">
-                <button @click="showStudentRegister">학생 등록</button>
+                <button @click="showStudentRegister">새로운 학생 등록</button>
                 <button @click="showStudentSetting">학생 정보 수정</button>
             </div>
             <div class="teacher-manage">
-                <button @click="showTeacherRegister">교사 등록</button>
+                <button @click="showTeacherRegister">새로운 교사 등록</button>
                 <button @click="showTeacherSetting">교사 정보 수정</button>
             </div>
             <div class="parent-manage">
                 <button @click="showParentRegister">학부모 자녀 등록</button>
                 <button @click="showTestScoreRegister">주간평가 점수 등록</button>
+            </div>
+            <div class="bill-manage">
+                <button @click="showBillRegister">수납정보 등록 및 수정</button>
             </div>
         </div>
     <StudentRegister v-else-if="showComponent === 'studentRegister'" />
@@ -20,6 +23,7 @@
     <TeacherSetting v-else-if="showComponent === 'teacherSetting'" />
     <ParentRegister v-else-if="showComponent === 'parentRegister'" />
     <TestScoreRegister v-else-if="showComponent === 'testScoreRegister'" />
+    <BillRegister v-else-if="showComponent === 'billRegister'" />
 </template>
 <script setup>
 import { ref } from 'vue'
@@ -29,6 +33,7 @@ import TeacherSetting from '../TeacherSetting.vue';
 import TeacherRegister from '../TeacherRegister.vue';
 import ParentRegister from '../ParentRegister.vue';
 import TestScoreRegister from '../TestScoreRegister.vue';
+import BillRegister from '../BillRegister.vue';
 
 const showComponent = ref('default');
 
@@ -55,9 +60,13 @@ function showParentRegister() {
 function showTestScoreRegister() {
     showComponent.value = 'testScoreRegister';
 }
+
+function showBillRegister() {
+    showComponent.value = 'billRegister';
+}
 </script>
 <style scoped>
-.teacher-manage, .student-manage, .parent-manage {
+.teacher-manage, .student-manage, .parent-manage, .bill-manage {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -112,5 +121,22 @@ function showTestScoreRegister() {
 .parent-manage button:hover {
     cursor: pointer;
     background-color: #5176e3;
+}
+
+.bill-manage button {
+    border-radius: 7px;
+    border-style: hidden;
+    margin: 10px 20%;
+    flex: auto;
+    padding: 10px;
+    font-size: large;
+    color: #000000;
+    background-color: #e7ff87;
+    transition: background-color 0.25s, color 0.25s;
+}
+
+.bill-manage button:hover {
+    cursor: pointer;
+    background-color: #fff184;
 }
 </style>
