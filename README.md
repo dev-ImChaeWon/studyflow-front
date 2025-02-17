@@ -32,7 +32,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - 학부모 계정으로 로그인 시 최초화면은 자녀수강정보 탭
 
 <img src="https://github.com/user-attachments/assets/480a3f0b-5a05-49f3-b270-31981250335a" width="300" height="510"/>
-
+<hr />
 ### [ 회원가입 ]
 - 회원가입 시 학부모 계정 생성
 
