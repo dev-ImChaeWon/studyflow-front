@@ -24,8 +24,8 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
-`화면은 모바일 기준`
 ## 페이지 소개
+`화면은 모바일 기준`
 ### [ 로그인 ]
 - 선생님, 학부모 계정으로 로그인 할 수 있음
 - 선생님 계정으로 로그인 시 최초화면은 학습관리 탭
