@@ -51,6 +51,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### [ 학습관리 : 1 ]
 - 숙제 미부여 탭
+- 교사별, 학생별 숙제 검색 필터를 사용할 수 있음
 - 회색 박스를 클릭하면 숙제 부여 탭으로 이동
 
 <img src="https://github.com/user-attachments/assets/576ac8a7-1c1c-4ebc-be76-607e4d675853" width="300" height="510"/>
@@ -60,29 +61,34 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - 숙제 부여 탭
 
 <img src="https://github.com/user-attachments/assets/42f7d0d5-8c4f-4ab3-ab23-d9fef027018e" width="300" height="510"/>
+<hr /> 
 
 ### [ 학습관리 : 3 ]
 - 숙제 추가하기
 - 숙제는 페이지 숫자로 입력할 수 있음
 
 <img src="https://github.com/user-attachments/assets/808fbbc2-8e1a-4c9c-b842-9752ffcef715" width="300" height="510"/>
+<hr /> 
 
 ### [ 학습관리 : 4 ]
 - 숙제가 추가된 화면
 - 완료 Page를 클릭하여 수정할 수 있음
 
 <img src="https://github.com/user-attachments/assets/e067d18f-ac5c-44a6-a27b-528bf89a737c" width="300" height="510"/>
+<hr /> 
 
 ### [ 학습관리 : 5 ]
 - 완료 Page를 수정한 화면
 
 <img src="https://github.com/user-attachments/assets/e0b64386-cc4c-4b75-80f7-0959182ab1d0" width="300" height="510"/>
+<hr /> 
 
 ### [ 학습관리 : 6 ]
 - 숙제 완료 탭
 - 완료된 숙제를 박스에 띄움
 
 <img src="https://github.com/user-attachments/assets/6af18508-7378-498e-bb38-55eb5d3fc3e0" width="300" height="510"/>
+<hr /> 
 
 ### [ 학습관리 : 7 ]
 - 숙제 미완료 탭
@@ -90,14 +96,33 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - 숙제 완료 정도 퍼센트(%) 표시
 
 <img src="https://github.com/user-attachments/assets/c0e5cb73-7b80-4110-ba97-664969f461b7" width="300" height="510"/>
+<hr /> 
 
 ### [ 수납관리 ]
 - 수납하기 버튼을 클릭하여 수납가능
 - 이미 수납된 학생은 중복 수납 불가능
 
 <img src="https://github.com/user-attachments/assets/674a5016-8ecd-4b61-8685-5eff667058ac" width="300" height="510"/>
-
+<hr /> 
 
 ### [ 환경설정 ]
 <img src="https://github.com/user-attachments/assets/5b9610c8-a43e-4af1-8dbc-58c86ceff0d7" width="300" height="510"/>
+<hr /> 
+
+### [ 환경설정 : 학생 등록 ]
+- 이름 입력란을 클릭해서 이름 작성 후 등록
+<img src="https://github.com/user-attachments/assets/66c39751-3176-40bd-ac92-69ee5a622123" width="300" height="510"/>
+
+### [ 환경설정 : 학생 정보 수정 ]
+- 과목별, 학생별 검색 필터를 사용할 수 있음
+- 과목 추가하기 버튼으로 해당 학생에 과목 추가
+- 정보 수정 버튼으로 해당 학생 정보 수정
+<div style=display:flex;>
+<img src="https://github.com/user-attachments/assets/9d5e4c5f-e91d-4abb-bc66-4d60eac2ab1a" width="300" height="510"/>
+<img src="https://github.com/user-attachments/assets/5f8d4ca5-2fa2-427c-bcc6-8f565fa24a87" width="300" height="510"/>
+<img src="https://github.com/user-attachments/assets/3d1253bf-e898-49c1-8980-60ef1f58ffd9" width="300" height="510"/>
+</div>
+
+### [ 환경설정 : 교사 등록 ]
+
 
