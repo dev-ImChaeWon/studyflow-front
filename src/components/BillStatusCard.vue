@@ -126,9 +126,16 @@ async function fetchBillManagement(studentSubjectData) {
 
 // 납부하기 버튼 클릭 핸들러
 async function handlePay(subject) {
-  if (subject.billData?.isPay) {
-    alert("이미 납부된 과목입니다.");
-    return;
+  const currentMonth = new Date().getMonth(); // 현재 월 (0부터 시작, 0=1월)
+  
+  if (subject.billData?.payDate) {
+    const payDate = new Date(subject.billData.payDate);
+    const payMonth = payDate.getMonth(); // 납부 월 (0부터 시작)
+
+    if (currentMonth === payMonth) {
+      alert("이미 납부된 과목입니다.");
+      return;
+    }
   }
 
   const studentSubjectData = await fetchStudentSubject(
@@ -151,6 +158,8 @@ async function handlePay(subject) {
     alert("납부되었습니다.");
     // 성공 후 UI 업데이트
     subject.billData.isPay = true;
+
+    await fetchBillManagement(studentSubjectData);
   } catch (e) {
     console.error("납부 업데이트에 실패했습니다:", e);
   }
