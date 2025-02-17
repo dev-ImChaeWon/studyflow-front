@@ -44,12 +44,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 <img src="https://github.com/user-attachments/assets/9eadf687-86d7-45e2-befd-10f8d1555d5b" width="300" height="510"/>
 
-## 학습관리 - 1
+## 학습관리 : 1
 - 숙제 미부여 탭
 - 회색 박스를 클릭하면 숙제 부여 탭으로 이동
-![Image](https://github.com/user-attachments/assets/576ac8a7-1c1c-4ebc-be76-607e4d675853)
 
-## 학습관리 - 2
+<img src="https://github.com/user-attachments/assets/576ac8a7-1c1c-4ebc-be76-607e4d675853" width="300" height="510"/>
+
+## 학습관리 : 2
 - 숙제 부여 탭
-![Image](https://github.com/user-attachments/assets/42f7d0d5-8c4f-4ab3-ab23-d9fef027018e)
 
+<img src="https://github.com/user-attachments/assets/42f7d0d5-8c4f-4ab3-ab23-d9fef027018e" width="300" height="510"/>
