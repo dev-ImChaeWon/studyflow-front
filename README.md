@@ -33,10 +33,12 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 <img src="https://github.com/user-attachments/assets/480a3f0b-5a05-49f3-b270-31981250335a" width="300" height="510"/>
 <hr />
+
 ### [ 회원가입 ]
 - 회원가입 시 학부모 계정 생성
 
 <img src="https://github.com/user-attachments/assets/2008af60-767a-4305-960c-852fc999b28a" width="300" height="510"/>
+<hr /> 
 
 ### 선생님 페이지
 ### [ 원생관리 ]
@@ -45,13 +47,14 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - 화면의 P, A, L, LE 클릭 시 DB에 반영됨
 
 <img src="https://github.com/user-attachments/assets/9eadf687-86d7-45e2-befd-10f8d1555d5b" width="300" height="510"/>
-
+<hr /> 
 
 ### [ 학습관리 : 1 ]
 - 숙제 미부여 탭
 - 회색 박스를 클릭하면 숙제 부여 탭으로 이동
 
 <img src="https://github.com/user-attachments/assets/576ac8a7-1c1c-4ebc-be76-607e4d675853" width="300" height="510"/>
+<hr /> 
 
 ### [ 학습관리 : 2 ]
 - 숙제 부여 탭
