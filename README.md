@@ -121,9 +121,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - 과목 추가하기 버튼으로 해당 학생에 과목 추가
 - 정보 수정 버튼으로 해당 학생 정보 수정
 <div style=display:flex;>
-<img src="https://github.com/user-attachments/assets/9d5e4c5f-e91d-4abb-bc66-4d60eac2ab1a" width="300" height="510"/>
-<img src="https://github.com/user-attachments/assets/5f8d4ca5-2fa2-427c-bcc6-8f565fa24a87" width="300" height="510"/>
-<img src="https://github.com/user-attachments/assets/3d1253bf-e898-49c1-8980-60ef1f58ffd9" width="300" height="510"/>
+<img src="https://github.com/user-attachments/assets/9d5e4c5f-e91d-4abb-bc66-4d60eac2ab1a" width="200" height="340"/>
+<img src="https://github.com/user-attachments/assets/5f8d4ca5-2fa2-427c-bcc6-8f565fa24a87" width="200" height="340"/>
+<img src="https://github.com/user-attachments/assets/3d1253bf-e898-49c1-8980-60ef1f58ffd9" width="200" height="340"/>
 </div>
 <hr /> 
 
